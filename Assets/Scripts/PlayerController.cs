@@ -225,7 +225,7 @@ public class PlayerController : MonoBehaviour
         for (;;)
         {
             SetTimerText();
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForFixedUpdate();
         }
 
     }
