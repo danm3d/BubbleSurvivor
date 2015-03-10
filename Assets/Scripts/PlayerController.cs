@@ -216,6 +216,10 @@ public class PlayerController : MonoBehaviour
 				Handheld.Vibrate();
 
 			gameOverScreen.SetActive(true);
+			PlayGamesPlatform.Instance.ReportScore((long)surviveTime, "CgkIif2dm5QIEAIQAg", (bool success) =>
+			{
+				Debug.Log("Score Logged");
+			});
 			if (scoreManager.RecordValue(surviveTime))
 			{
 				gameOverScreen.transform.FindChild("HighScoreText").gameObject.SetActive(true);
