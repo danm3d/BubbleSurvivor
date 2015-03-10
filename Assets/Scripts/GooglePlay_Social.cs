@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
-using GooglePlayGames;
-using UnityEngine.SocialPlatforms;
-public class SignIn : MonoBehaviour
+﻿using GooglePlayGames;
+using UnityEngine;
+
+public class GooglePlay_Social : MonoBehaviour
 {
 	public void SignInUser()
 	{
@@ -36,9 +35,16 @@ public class SignIn : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("You're already signed Out.");
+			Debug.Log("You're already signed out.");
 			// We could also start our game now
 		}
+	}
 
+	public void ViewAchievements()
+	{
+		if (PlayGamesPlatform.Instance.localUser.authenticated)
+		{
+			PlayGamesPlatform.Instance.ShowAchievementsUI();
+		}
 	}
 }
