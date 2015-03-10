@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.UI;
 using UnityEngine.Advertisements;
+using GooglePlayGames;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
 	public GameObject pauseScreen, gameOverScreen;
 	private float inputx, inputy;
 	public bool menuMode = false;
+	public bool roundStarted = false;
 	[Serializable]
 	public class GameSettings
 	{
@@ -146,6 +148,17 @@ public class PlayerController : MonoBehaviour
 		{
 			PauseGame();
 		}
+		if (roundStarted && !menuMode)
+		{
+			surviveTime += Time.deltaTime;
+		}
+		if (surviveTime >= 20f)
+		{
+			PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAQ", 100.0f, (bool success) =>
+				{
+					Debug.Log("Achievement Unlocked!");
+				});
+		}
 	}
 
 	void FixedUpdate()
@@ -194,7 +207,6 @@ public class PlayerController : MonoBehaviour
 
 	private void SetTimerText()
 	{
-		surviveTime += Time.deltaTime;
 		gameTimer.text = surviveTime.ToString("n2");
 		if (transform.localScale.x <= 0.1f)
 		{
@@ -224,6 +236,7 @@ public class PlayerController : MonoBehaviour
 
 		}
 		startTimer.gameObject.SetActive(false);
+		roundStarted = true;
 		for (; ; )
 		{
 			SetTimerText();

@@ -47,4 +47,13 @@ public class GooglePlay_Social : MonoBehaviour
 			PlayGamesPlatform.Instance.ShowAchievementsUI();
 		}
 	}
+
+	public void ViewLeaderboards()
+	{
+		if (PlayGamesPlatform.Instance.localUser.authenticated)
+		{
+			PlayGamesPlatform.Instance.ShowLeaderboardUI();
+		}
+
+	}
 }
