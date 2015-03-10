@@ -27,4 +27,18 @@ public class SignIn : MonoBehaviour
 			// We could also start our game now
 		}
 	}
+
+	public void SignOutUser()
+	{
+		if (PlayGamesPlatform.Instance.localUser.authenticated)
+		{
+			PlayGamesPlatform.Instance.SignOut();
+		}
+		else
+		{
+			Debug.Log("You're already signed Out.");
+			// We could also start our game now
+		}
+
+	}
 }
