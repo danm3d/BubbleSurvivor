@@ -1,18 +1,17 @@
-﻿using UnityEngine;
+﻿using GooglePlayGames;
 using System;
-using System.IO;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine.UI;
+using UnityEngine;
 using UnityEngine.Advertisements;
-using GooglePlayGames;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
 	public Material redMat, greenMat, blueMat;
 	private int bubbleType = 0;
+	private float accelInitialX = 0, accelInitialY = 0;
 	private float surviveTime = 0.0f;
 	public Text gameTimer, startTimer;
 	private HighscoreManager scoreManager;
@@ -20,6 +19,7 @@ public class PlayerController : MonoBehaviour
 	private float inputx, inputy;
 	public bool menuMode = false;
 	public bool roundStarted = false;
+
 	[Serializable]
 	public class GameSettings
 	{
@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 		public bool sounds = true;
 		public bool vibes = true;
 	}
+
 	private GameSettings gameSettings;
 
 	public GameSettings CurrentGameSettings
@@ -45,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
 	#region unity Ads
 
-	void Awake()
+	private void Awake()
 	{
 		if (Advertisement.isSupported)
 		{
@@ -75,27 +76,15 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	//    void OnGUI()
-	//    {
-	//        if (GUI.Button(new Rect(10, 10, 150, 50), Advertisement.isReady() ? "Show Ad" : "Waiting..."))
-	//        {
-	//            // Show with default zone, pause engine and print result to debug log
-	//            Advertisement.Show(null, new ShowOptions {
-	//                pause = true,
-	//                resultCallback = result => {
-	//                    Debug.Log(result.ToString());
-	//                }
-	//            });
-	//        }
-	//    }
-
-	#endregion
+	#endregion unity Ads
 
 	// Use this for initialization
-	void Start()
+	private void Start()
 	{
 		//QualitySettings.vSyncCount = 0;
 		//QualitySettings.SetQualityLevel(8, true);
+		accelInitialX = Input.acceleration.x;
+		accelInitialY = Input.acceleration.y;
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 		LoadSettings();
@@ -105,10 +94,9 @@ public class PlayerController : MonoBehaviour
 			StartCoroutine(ColorSwitch());
 			StartCoroutine(TrackSurviveTime());
 		}
-
 	}
 
-	void OnDestroy()
+	private void OnDestroy()
 	{
 		SaveSettings();
 	}
@@ -142,7 +130,7 @@ public class PlayerController : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape) && !menuMode)
 		{
@@ -159,9 +147,16 @@ public class PlayerController : MonoBehaviour
 					Debug.Log("Achievement Unlocked!");
 				});
 		}
+		if (surviveTime >= 100f)
+		{
+			PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAw", 100.0f, (bool success) =>
+	{
+		Debug.Log("Achievement Unlocked!");
+	});
+		}
 	}
 
-	void FixedUpdate()
+	private void FixedUpdate()
 	{
 		if (!menuMode)
 		{
@@ -195,14 +190,20 @@ public class PlayerController : MonoBehaviour
 
 	private void MovePlayer()
 	{
-#if UNITY_EDITOR
-		inputx = Input.GetAxis("Horizontal") * 10f;
-		inputy = Input.GetAxis("Vertical") * 10f;
-#else
-		inputx = Input.acceleration.x * 20f;
-		inputy = Input.acceleration.y * 20f;
-#endif
-		GetComponent<Rigidbody2D>().velocity = new Vector2(inputx, inputy);
+		Vector3 direction = Vector3.zero;
+		//#if UNITY_EDITOR
+		//		inputx = Input.GetAxis("Horizontal") * 10f;
+		//		inputy = Input.GetAxis("Vertical") * 10f;
+		//#else
+		direction.x = (Input.acceleration.x - accelInitialX);
+		direction.y = (Input.acceleration.y - accelInitialY);
+		//#endif
+		if (direction.sqrMagnitude > 1)
+		{
+			direction.Normalize();
+		}
+		direction = new Vector3(20f * direction.x, 20f * direction.y);
+		GetComponent<Rigidbody2D>().velocity = direction;
 	}
 
 	private void SetTimerText()
@@ -216,19 +217,20 @@ public class PlayerController : MonoBehaviour
 				Handheld.Vibrate();
 
 			gameOverScreen.SetActive(true);
-			PlayGamesPlatform.Instance.ReportScore((long)surviveTime, "CgkIif2dm5QIEAIQAg", (bool success) =>
-			{
-				Debug.Log("Score Logged");
-			});
 			if (scoreManager.RecordValue(surviveTime))
 			{
 				gameOverScreen.transform.FindChild("HighScoreText").gameObject.SetActive(true);
+				PlayGamesPlatform.Instance.ReportScore((long)surviveTime, "CgkIif2dm5QIEAIQAg", (bool success) =>
+				{
+					Debug.Log("Score Logged");
+				});
+
 			}
 			ShowAds(scoreManager.ShowAds());
 		}
 	}
 
-	IEnumerator TrackSurviveTime()
+	private IEnumerator TrackSurviveTime()
 	{
 		int startDelay = 3;
 		startTimer.gameObject.SetActive(true);
@@ -237,7 +239,6 @@ public class PlayerController : MonoBehaviour
 			startTimer.text = (startDelay).ToString();
 			startDelay -= 1;
 			yield return new WaitForSeconds(1f);
-
 		}
 		startTimer.gameObject.SetActive(false);
 		roundStarted = true;
@@ -246,10 +247,9 @@ public class PlayerController : MonoBehaviour
 			SetTimerText();
 			yield return new WaitForSeconds(0.02f);
 		}
-
 	}
 
-	IEnumerator ColorSwitch()
+	private IEnumerator ColorSwitch()
 	{
 		for (; ; )
 		{
@@ -266,7 +266,8 @@ public class PlayerController : MonoBehaviour
 	}
 
 	private BubbleBehaviour bubBehav;
-	void OnCollisionEnter2D(Collision2D other)
+
+	private void OnCollisionEnter2D(Collision2D other)
 	{
 		bubBehav = other.gameObject.GetComponent<BubbleBehaviour>();
 		if (bubBehav != null)
@@ -285,7 +286,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	IEnumerator Absorb(float scale)
+	private IEnumerator Absorb(float scale)
 	{
 		float timer = 0.0f;
 		Vector3 from = Vector3.zero;
@@ -301,5 +302,4 @@ public class PlayerController : MonoBehaviour
 			timer += 0.02f * 4f;
 		}
 	}
-
 }
