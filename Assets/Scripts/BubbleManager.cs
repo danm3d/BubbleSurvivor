@@ -27,6 +27,7 @@ public class BubbleManager : MonoBehaviour
             bubble = Instantiate(bubblePrefab, spawnPos, Quaternion.identity) as GameObject;
             bubble.GetComponent<BubbleBehaviour>().bubbleManager = this;
             bubble.transform.SetParent(transform);
+            bubble.GetComponent<BubbleBehaviour>().Spawn();
         }
     }
 
@@ -35,7 +36,7 @@ public class BubbleManager : MonoBehaviour
         bubble.SetActive(false);
         bubble.transform.position = new Vector3(Random.Range(0f, playWidth), Random.Range(0f, playHeight), 0f);
         bubble.SetActive(true);
-        bubble.GetComponent<BubbleBehaviour>().Spawn();
+        bubble.GetComponent<BubbleBehaviour>().Respawn();
     }
 	
 }
