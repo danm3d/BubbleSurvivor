@@ -52,8 +52,7 @@ public class PlayerController : MonoBehaviour
 		{
 			Advertisement.allowPrecache = true;
 			Advertisement.Initialize("25086", false);
-		}
-		else
+        } else
 		{
 			Debug.Log("Platform not supported");
 		}
@@ -111,8 +110,7 @@ public class PlayerController : MonoBehaviour
 			{
 				gameSettings = (GameSettings)bf.Deserialize(fileStr);
 			}
-		}
-		else
+        } else
 		{
 			gameSettings = new GameSettings();
 		}
@@ -136,10 +134,6 @@ public class PlayerController : MonoBehaviour
 		{
 			PauseGame();
 		}
-		if (roundStarted && !menuMode)
-		{
-			surviveTime += Time.deltaTime;
-		}
 		if (surviveTime >= 20f)
 		{
 			PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAQ", 100.0f, (bool success) =>
@@ -151,8 +145,8 @@ public class PlayerController : MonoBehaviour
 		{
 			PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAw", 100.0f, (bool success) =>
 	{
-		Debug.Log("Achievement Unlocked!");
-	});
+					Debug.Log("Achievement Unlocked!");
+				});
 		}
 	}
 
@@ -208,6 +202,7 @@ public class PlayerController : MonoBehaviour
 
 	private void SetTimerText()
 	{
+        surviveTime += Time.deltaTime;
 		gameTimer.text = surviveTime.ToString("n2");
 		if (transform.localScale.x <= 0.1f)
 		{
@@ -220,10 +215,10 @@ public class PlayerController : MonoBehaviour
 			if (scoreManager.RecordValue(surviveTime))
 			{
 				gameOverScreen.transform.FindChild("HighScoreText").gameObject.SetActive(true);
-				PlayGamesPlatform.Instance.ReportScore((long)surviveTime, "CgkIif2dm5QIEAIQAg", (bool success) =>
-				{
-					Debug.Log("Score Logged");
-				});
+			PlayGamesPlatform.Instance.ReportScore((long)surviveTime, "CgkIif2dm5QIEAIQAg", (bool success) =>
+			{
+				Debug.Log("Score Logged");
+			});
 
 			}
 			ShowAds(scoreManager.ShowAds());
@@ -242,16 +237,16 @@ public class PlayerController : MonoBehaviour
 		}
 		startTimer.gameObject.SetActive(false);
 		roundStarted = true;
-		for (; ; )
+        for (; ;)
 		{
 			SetTimerText();
-			yield return new WaitForSeconds(0.02f);
+            yield return new WaitForFixedUpdate();
 		}
 	}
 
 	private IEnumerator ColorSwitch()
 	{
-		for (; ; )
+        for (; ;)
 		{
 			bubbleType = UnityEngine.Random.Range(0, 3);
 			if (bubbleType == 0)
@@ -276,8 +271,7 @@ public class PlayerController : MonoBehaviour
 			{
 				StartCoroutine(Absorb(other.transform.localScale.x / 16f));
 				bubBehav.Absorb();
-			}
-			else
+            } else
 			{
 				if (gameSettings.vibes)
 					Handheld.Vibrate();

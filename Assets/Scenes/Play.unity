@@ -1610,6 +1610,7 @@ MonoBehaviour:
   pauseScreen: {fileID: 1200213756}
   gameOverScreen: {fileID: 736480414}
   menuMode: 0
+  roundStarted: 0
   border: {fileID: 1235339053}
 --- !u!50 &1466044545
 Rigidbody2D:
