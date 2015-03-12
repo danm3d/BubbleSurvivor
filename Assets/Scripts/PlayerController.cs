@@ -11,15 +11,28 @@ public class PlayerController : MonoBehaviour
 {
     public Material redMat, greenMat, blueMat;
     private int bubbleType = 0;
-    private float accelInitialX = 0, accelInitialY = 0;
+    public float accelInitialX = 0, accelInitialY = 0;
     private float surviveTime = 0.0f;
     public Text gameTimer, startTimer;
     private HighscoreManager scoreManager;
     public GameObject pauseScreen, gameOverScreen;
-    private Vector2 direction = Vector3.zero;//movement direction
+    private Vector2 direction = Vector3.zero;
+
+    /// Gets the current move/tilt direction.
+    public Vector2 Direction
+    {
+        get
+        {
+            return direction;
+        }
+    }
+
+//movement direction
     public bool menuMode = false;//is this script currently used in the main menu
     public bool roundStarted = false;//has the round started
     private bool roundOver = false;//has the current round ended
+    private Renderer myRend;//reference to the renderer on this object
+    private bool isWrappingX, isWrappingY;
 
     [Serializable]
     public class GameSettings
@@ -49,6 +62,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        myRend = GetComponent<Renderer>();
         if (Advertisement.isSupported)
         {
             Advertisement.allowPrecache = true;
@@ -133,6 +147,7 @@ public class PlayerController : MonoBehaviour
         {
             PauseGame();
         }
+        //TODO separate achievement checks to a different class to make per level achievements easier
         if (surviveTime >= 20f)
         {
             PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAQ", 100.0f, (bool success) =>
@@ -147,6 +162,10 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Achievement Unlocked!");
             });
         }
+        if (Time.timeScale != 0)
+        {
+            ScreenWrap();
+        }
     }
 
     private void FixedUpdate()
@@ -154,6 +173,36 @@ public class PlayerController : MonoBehaviour
         if (!menuMode)
         {
             MovePlayer();
+        }
+    }
+    ///Wrap the player around the screen.
+    private void ScreenWrap()
+    {
+        if (!myRend.isVisible)
+        {
+            if (isWrappingX && isWrappingY)
+            {
+                return;
+            }
+            Vector3 newPos = transform.position;
+            Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
+            if (!isWrappingX && (viewportPos.x > 1 || viewportPos.x < 0))
+            {
+                newPos.x = -newPos.x;                
+                isWrappingX = true;
+            }
+            
+            if (!isWrappingY && (viewportPos.y > 1 || viewportPos.y < 0))
+            {
+                newPos.y = -newPos.y;                
+                isWrappingY = true;
+            }
+            transform.position = newPos;
+        } else
+        {
+            isWrappingX = false;
+            isWrappingY = false;
+            return;
         }
     }
 
@@ -296,4 +345,5 @@ public class PlayerController : MonoBehaviour
             timer += 0.02f * 4f;
         }
     }
+
 }

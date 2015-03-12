@@ -23,9 +23,12 @@ public class BubbleBehaviour : MonoBehaviour
             return circleCollider;
         }
     }
+    private Renderer myRend;//reference to the renderer on this object
+    private bool isWrappingX, isWrappingY;
 
     void Awake()
     {
+        myRend = GetComponent<Renderer>();
         Spawn();
     }
 
@@ -112,6 +115,41 @@ public class BubbleBehaviour : MonoBehaviour
         }
         GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         bubbleManager.SaveBubble(gameObject);
+    }
+
+    void Update()
+    {
+        ScreenWrap();
+    }
+
+    private void ScreenWrap()
+    {
+        if (!myRend.isVisible)
+        {
+            if (isWrappingX && isWrappingY)
+            {
+                return;
+            }
+            Vector3 newPos = transform.position;
+            Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
+            if (!isWrappingX && (viewportPos.x > 1 || viewportPos.x < 0))
+            {
+                newPos.x = -newPos.x;                
+                isWrappingX = true;
+            }
+            
+            if (!isWrappingY && (viewportPos.y > 1 || viewportPos.y < 0))
+            {
+                newPos.y = -newPos.y;                
+                isWrappingY = true;
+            }
+            transform.position = newPos;
+        } else
+        {
+            isWrappingX = false;
+            isWrappingY = false;
+            return;
+        }
     }
 
 }
