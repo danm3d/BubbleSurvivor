@@ -17,8 +17,9 @@ public class PlayerController : MonoBehaviour
     private HighscoreManager scoreManager;
     public GameObject pauseScreen, gameOverScreen;
     private Vector2 direction = Vector3.zero;//movement direction
-    public bool menuMode = false;
-    public bool roundStarted = false;
+    public bool menuMode = false;//is this script currently used in the main menu
+    public bool roundStarted = false;//has the round started
+    private bool roundOver = false;//has the current round ended
 
     [Serializable]
     public class GameSettings
@@ -63,7 +64,6 @@ public class PlayerController : MonoBehaviour
         if (show && Advertisement.isReady())
         {
             // Show with default zone, pause engine and print result to debug log
-            //TODO add timer before skip shows up
             Advertisement.Show(null, new ShowOptions
 			{
 				pause = true,
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !menuMode)
+        if (Input.GetKeyDown(KeyCode.Escape) && !menuMode && !roundOver)
         {
             PauseGame();
         }
@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviour
     public void PlayAgain()
     {
         Time.timeScale = 1;
-        Application.LoadLevel("Play");
+        Application.LoadLevel(Application.loadedLevelName);//oh yes indeed... So much replay...
     }
 
     public void ToMenu()
@@ -206,6 +206,7 @@ public class PlayerController : MonoBehaviour
         if (transform.localScale.x <= 0.1f)
         {
             Time.timeScale = 0;
+            roundOver = true;
             gameTimer.text = surviveTime.ToString("n2");
             if (gameSettings.vibes)
                 Handheld.Vibrate();
