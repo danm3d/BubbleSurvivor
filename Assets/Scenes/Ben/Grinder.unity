@@ -189,8 +189,9 @@ GameObject:
   - 235: {fileID: 1856989847}
   - 212: {fileID: 1856989846}
   - 60: {fileID: 1856989845}
+  - 58: {fileID: 1856989849}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Grinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,18 +238,18 @@ PolygonCollider2D:
       - {x: -.0116330385, y: -.368301511}
       - {x: -.015830623, y: -1.07339311}
       - {x: .248560548, y: -.277477503}
-    - - {x: -.119999997, y: -.180000007}
-      - {x: -.170000002, y: -.129999995}
+    - - {x: -.124628328, y: -.138345003}
+      - {x: -.0689480454, y: -.150056109}
       - {x: -.0700000003, y: -.150000006}
-    - - {x: .0900000036, y: -.109999999}
-      - {x: .159999996, y: -.159999996}
+    - - {x: .147854164, y: -.17248252}
+      - {x: .12914446, y: -.189312786}
       - {x: .129999995, y: -.189999998}
     - - {x: -.189999998, y: .0799999982}
       - {x: -.0900000036, y: .0900000036}
-      - {x: -.140000001, y: .0799999982}
+      - {x: -.0898597389, y: .0892566741}
     - - {x: .0799999982, y: .129999995}
       - {x: .189999998, y: .109999999}
-      - {x: .100000001, y: .0799999982}
+      - {x: .191023871, y: .109312795}
 --- !u!212 &1856989846
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -288,9 +289,9 @@ WheelJoint2D:
   m_ConnectedAnchor: {x: 0, y: 0}
   m_Suspension:
     serializedVersion: 2
-    m_DampingRatio: .699999988
+    m_DampingRatio: 1
     m_Frequency: 2
-    m_Angle: 90
+    m_Angle: 0
   m_UseMotor: 1
   m_Motor:
     m_MotorSpeed: 200
@@ -310,3 +311,16 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
+--- !u!58 &1856989849
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1856989843}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: .35800001
