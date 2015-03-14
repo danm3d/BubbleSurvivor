@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     private bool roundOver = false;//has the current round ended
     private Renderer myRend;//reference to the renderer on this object
     private bool isWrappingX, isWrappingY;
+    public bool inTrigger = false;//is the player currently in a trigger area
+    private Rigidbody2D myRigidbody;//reference to the rigidbody on the player
 
     [Serializable]
     public class GameSettings
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour
         if (!menuMode)
         {
             myRend = GetComponent<Renderer>();
+            myRigidbody = GetComponent<Rigidbody2D>();
         }
         if (Advertisement.isSupported)
         {
@@ -219,6 +222,16 @@ public class PlayerController : MonoBehaviour
         Application.LoadLevel("MainMenu");
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        inTrigger = true;
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        inTrigger = false;
+    }
+
     private void MovePlayer()
     {
         direction.x = (Input.acceleration.x - accelInitialX);
@@ -234,7 +247,14 @@ public class PlayerController : MonoBehaviour
             direction.Normalize();
         }
         direction = new Vector3(20f * direction.x, 20f * direction.y);
-        GetComponent<Rigidbody2D>().velocity = direction;
+        //anti cheating for trigger areas. you can fight then, but you cant beat them
+        if (!inTrigger)
+        {
+            myRigidbody.velocity = (direction);
+        } else
+        {
+            myRigidbody.AddForce(direction);
+        }
     }
 
     private void SetTimerText()
@@ -293,18 +313,17 @@ public class PlayerController : MonoBehaviour
         {
             bubbleType = UnityEngine.Random.Range(0, 3);
             if (bubbleType == 0)
-                GetComponent<Renderer>().material = redMat;
+                myRend.material = redMat;
             else if (bubbleType == 1)
-                GetComponent<Renderer>().material = greenMat;
+                myRend.material = greenMat;
             else
-                GetComponent<Renderer>().material = blueMat;
-            border.SetMaterial(GetComponent<Renderer>().material);
+                myRend.material = blueMat;
+            border.SetMaterial(myRend.material);
             yield return new WaitForSeconds(UnityEngine.Random.Range(2f, 15f));
         }
     }
 
     private BubbleBehaviour bubBehav;
-
     private void OnCollisionEnter2D(Collision2D other)
     {
         bubBehav = other.gameObject.GetComponent<BubbleBehaviour>();
