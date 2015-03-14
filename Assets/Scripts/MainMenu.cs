@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
     private HighscoreManager scoreManager;
     public Text scoreText;
     public Toggle accel, sounds, shake;
-    public GameObject quitMenu, mainMenu, optionsMenu, scoreMenu;
+    public GameObject quitMenu, mainMenu, optionsMenu, scoreMenu, social;
 
     public bool Accelerometer
     {
@@ -32,6 +32,7 @@ public class MainMenu : MonoBehaviour
         set
         {
             playerControl.CurrentGameSettings.sounds = value;
+            Camera.main.GetComponent<AudioSource>().enabled = value;
         }
     }
 
@@ -51,6 +52,7 @@ public class MainMenu : MonoBehaviour
     {
         playerControl = GetComponent<PlayerController>();
         scoreManager = GetComponent<HighscoreManager>();
+        social.GetComponent<GooglePlay_Social>().SignInUser();
     }
 	
     void Update()

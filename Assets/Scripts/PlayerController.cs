@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private HighscoreManager scoreManager;
     public GameObject pauseScreen, gameOverScreen;
     private Vector2 direction = Vector3.zero;
+    public float scaleMagnitude = 0;
 
     /// Gets the current move/tilt direction.
     public Vector2 Direction
@@ -62,7 +63,10 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        myRend = GetComponent<Renderer>();
+        if (!menuMode)
+        {
+            myRend = GetComponent<Renderer>();
+        }
         if (Advertisement.isSupported)
         {
             Advertisement.allowPrecache = true;
@@ -127,6 +131,7 @@ public class PlayerController : MonoBehaviour
         {
             gameSettings = new GameSettings();
         }
+        Camera.main.gameObject.GetComponent<AudioSource>().enabled = gameSettings.sounds;
     }
 
     private void SaveSettings()
@@ -147,25 +152,6 @@ public class PlayerController : MonoBehaviour
         {
             PauseGame();
         }
-        //TODO separate achievement checks to a different class to make per level achievements easier
-        if (surviveTime >= 20f)
-        {
-            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAQ", 100.0f, (bool success) =>
-            {
-                Debug.Log("Achievement Unlocked!");
-            });
-        }
-        if (surviveTime >= 100f)
-        {
-            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAw", 100.0f, (bool success) =>
-            {
-                Debug.Log("Achievement Unlocked!");
-            });
-        }
-        if (Time.timeScale != 0)
-        {
-            ScreenWrap();
-        }
     }
 
     private void FixedUpdate()
@@ -173,6 +159,8 @@ public class PlayerController : MonoBehaviour
         if (!menuMode)
         {
             MovePlayer();
+            ScreenWrap();
+            scaleMagnitude = transform.localScale.magnitude;
         }
     }
     ///Wrap the player around the screen.
@@ -251,6 +239,7 @@ public class PlayerController : MonoBehaviour
     private void SetTimerText()
     {
         surviveTime += Time.deltaTime;
+        AchievementCheck();
         gameTimer.text = surviveTime.ToString("n2");
         if (transform.localScale.x <= 0.1f)
         {
@@ -343,6 +332,50 @@ public class PlayerController : MonoBehaviour
 
             yield return new WaitForSeconds(0.02f);
             timer += 0.02f * 4f;
+        }
+    }
+
+    private void AchievementCheck()
+    {
+        //Baby steps
+        if (surviveTime >= 20f)
+        {
+            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAQ", 100.0f, (bool success) =>
+            {
+                Debug.Log("Achievement Unlocked! Baby steps");
+            });
+        }
+        //Century
+        if (surviveTime >= 100f)
+        {
+            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAw", 100.0f, (bool success) =>
+            {
+                Debug.Log("Achievement Unlocked! Century");
+            });
+        }
+        //500 miles
+        if (surviveTime >= 500f)
+        {
+            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBg", 100.0f, (bool success) =>
+            {
+                Debug.Log("Achievement Unlocked! 500 miles");
+            });
+        }
+        //500 more
+        if (surviveTime >= 1000f)
+        {
+            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBA", 100.0f, (bool success) =>
+            {
+                Debug.Log("Achievement Unlocked! 500 more");
+            });
+        }
+        //Steriods
+        if (transform.localScale.magnitude >= 17f)
+        {
+            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBQ", 100.0f, (bool success) =>
+            {
+                Debug.Log("Achievement Unlocked! Roids");
+            });
         }
     }
 
