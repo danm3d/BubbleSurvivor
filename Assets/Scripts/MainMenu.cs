@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 
     private PlayerController playerControl;
     private HighscoreManager scoreManager;
-    public Text scoreText;
+    public Text scoreText, qualityLabel;
     public Toggle accel, sounds, shake;
     public GameObject quitMenu, mainMenu, optionsMenu, scoreMenu, social;
 
@@ -82,6 +82,7 @@ public class MainMenu : MonoBehaviour
         accel.isOn = Accelerometer;
         sounds.isOn = Sounds;
         shake.isOn = Vibes;
+        qualityLabel.text = QualitySettings.names [QualitySettings.GetQualityLevel()];
     }
 
     public void Play()
@@ -92,6 +93,20 @@ public class MainMenu : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void IncreaseQuality()
+    {
+        QualitySettings.IncreaseLevel();
+        qualityLabel.text = QualitySettings.names [QualitySettings.GetQualityLevel()];
+        playerControl.CurrentGameSettings.qualityLevel = QualitySettings.GetQualityLevel();
+    }
+
+    public void DecreaseQuality()
+    {
+        QualitySettings.DecreaseLevel();
+        qualityLabel.text = QualitySettings.names [QualitySettings.GetQualityLevel()];
+        playerControl.CurrentGameSettings.qualityLevel = QualitySettings.GetQualityLevel();
     }
 
 }

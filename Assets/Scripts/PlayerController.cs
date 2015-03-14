@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
         public bool useAccelerometer = true;
         public bool sounds = true;
         public bool vibes = true;
+        public int qualityLevel;
     }
 
     private GameSettings gameSettings;
@@ -253,10 +254,14 @@ public class PlayerController : MonoBehaviour
             if (scoreManager.RecordValue(surviveTime))
             {
                 gameOverScreen.transform.FindChild("HighScoreText").gameObject.SetActive(true);
-                PlayGamesPlatform.Instance.ReportScore((long)surviveTime, "CgkIif2dm5QIEAIQAg", (bool success) =>
+                //can only post to the online leaderboard when logged in
+                if (PlayGamesPlatform.Instance.localUser.authenticated)
                 {
-                    Debug.Log("Score Logged");
-                });
+                    PlayGamesPlatform.Instance.ReportScore((long)surviveTime, "CgkIif2dm5QIEAIQAg", (bool success) =>
+                    {
+                        Debug.Log("Score Logged");
+                    });
+                }
 
             }
             ShowAds(scoreManager.ShowAds());
@@ -337,45 +342,49 @@ public class PlayerController : MonoBehaviour
 
     private void AchievementCheck()
     {
-        //Baby steps
-        if (surviveTime >= 20f)
+        //can only get achievements when you are signed in
+        if (PlayGamesPlatform.Instance.localUser.authenticated)
         {
-            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAQ", 100.0f, (bool success) =>
+            //Baby steps
+            if (surviveTime >= 20f)
             {
-                Debug.Log("Achievement Unlocked! Baby steps");
-            });
-        }
-        //Century
-        if (surviveTime >= 100f)
-        {
-            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAw", 100.0f, (bool success) =>
+                PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAQ", 100.0f, (bool success) =>
+                {
+                    Debug.Log("Achievement Unlocked! Baby steps");
+                });
+            }
+            //Century
+            if (surviveTime >= 100f)
             {
-                Debug.Log("Achievement Unlocked! Century");
-            });
-        }
-        //500 miles
-        if (surviveTime >= 500f)
-        {
-            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBg", 100.0f, (bool success) =>
+                PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAw", 100.0f, (bool success) =>
+                {
+                    Debug.Log("Achievement Unlocked! Century");
+                });
+            }
+            //500 miles
+            if (surviveTime >= 500f)
             {
-                Debug.Log("Achievement Unlocked! 500 miles");
-            });
-        }
-        //500 more
-        if (surviveTime >= 1000f)
-        {
-            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBA", 100.0f, (bool success) =>
+                PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBg", 100.0f, (bool success) =>
+                {
+                    Debug.Log("Achievement Unlocked! 500 miles");
+                });
+            }
+            //500 more
+            if (surviveTime >= 1000f)
             {
-                Debug.Log("Achievement Unlocked! 500 more");
-            });
-        }
-        //Steriods
-        if (transform.localScale.magnitude >= 17f)
-        {
-            PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBQ", 100.0f, (bool success) =>
+                PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBA", 100.0f, (bool success) =>
+                {
+                    Debug.Log("Achievement Unlocked! 500 more");
+                });
+            }
+            //Steriods
+            if (transform.localScale.magnitude >= 17f)
             {
-                Debug.Log("Achievement Unlocked! Roids");
-            });
+                PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBQ", 100.0f, (bool success) =>
+                {
+                    Debug.Log("Achievement Unlocked! Roids");
+                });
+            }
         }
     }
 
