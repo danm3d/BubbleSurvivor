@@ -34,7 +34,7 @@ public class BubbleManager : MonoBehaviour
     public void SaveBubble(GameObject bubble)
     {
         bubble.SetActive(false);
-        bubble.transform.position = new Vector3(Random.Range(0f, playWidth), Random.Range(0f, playHeight), 0f);
+        bubble.transform.position = new Vector3(Random.Range(-playWidth, playWidth), Random.Range(-playHeight, playHeight), 0f);
         bubble.SetActive(true);
         bubble.GetComponent<BubbleBehaviour>().Respawn();
     }

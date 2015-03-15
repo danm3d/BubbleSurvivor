@@ -103,8 +103,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         //Record initial rotation to adjust for starting rotation.
-        accelInitialX = Input.acceleration.x;
-        accelInitialY = Input.acceleration.y;
+        accelInitialX = Mathf.Clamp(Input.acceleration.x, -1f, 1f);
+        accelInitialY = Mathf.Clamp(Input.acceleration.y, -1f, 1f);
 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         LoadSettings();
