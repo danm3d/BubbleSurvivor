@@ -117,8 +117,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105908}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: -1.62920685e-07}
+  m_LocalPosition: {x: 0, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 457898}
@@ -131,9 +131,9 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 159566}
   m_Mass: 1
-  m_LinearDrag: .5
-  m_AngularDrag: .5
-  m_GravityScale: 2
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: .100000001
   m_FixedAngle: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -146,9 +146,9 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 126014}
   m_Mass: 1
-  m_LinearDrag: .5
-  m_AngularDrag: .5
-  m_GravityScale: 2
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: .100000001
   m_FixedAngle: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -161,9 +161,9 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 127836}
   m_Mass: 1
-  m_LinearDrag: .5
-  m_AngularDrag: .5
-  m_GravityScale: 2
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_FixedAngle: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -331,9 +331,9 @@ HingeJoint2D:
   m_ConnectedRigidBody: {fileID: 5084644}
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
-  m_UseMotor: 0
+  m_UseMotor: 1
   m_Motor:
-    m_MotorSpeed: 0
+    m_MotorSpeed: 100
     m_MaximumMotorForce: 10000
   m_UseLimits: 0
   m_AngleLimits:

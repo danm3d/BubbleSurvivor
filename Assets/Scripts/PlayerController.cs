@@ -11,13 +11,12 @@ public class PlayerController : MonoBehaviour
 {
     public Material redMat, greenMat, blueMat;
     private int bubbleType = 0;
-    public float accelInitialX = 0, accelInitialY = 0;
+    private float accelInitialX = 0, accelInitialY = 0;
     private float surviveTime = 0.0f;
     public Text gameTimer, startTimer;
     private HighscoreManager scoreManager;
     public GameObject pauseScreen, gameOverScreen;
     private Vector2 direction = Vector3.zero;
-    public float scaleMagnitude = 0;
 
     /// Gets the current move/tilt direction.
     public Vector2 Direction
@@ -34,7 +33,7 @@ public class PlayerController : MonoBehaviour
     private bool roundOver = false;//has the current round ended
     private Renderer myRend;//reference to the renderer on this object
     private bool isWrappingX, isWrappingY;
-    public bool inTrigger = false;//is the player currently in a trigger area
+    private bool inTrigger = false;//is the player currently in a trigger area
     private Rigidbody2D myRigidbody;//reference to the rigidbody on the player
 
     [Serializable]
@@ -60,7 +59,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public PositionBorder border;
+    public PositionBorder border;//used to change the color of the borders
 
 	#region unity Ads
 
@@ -103,8 +102,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         //Record initial rotation to adjust for starting rotation.
-        accelInitialX = Mathf.Clamp(Input.acceleration.x, -1f, 1f);
-        accelInitialY = Mathf.Clamp(Input.acceleration.y, -1f, 1f);
+        accelInitialX = Mathf.Clamp(Input.acceleration.x, -0.5f, 0.5f);
+        accelInitialY = Mathf.Clamp(Input.acceleration.y, -0.5f, 0.5f);
 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         LoadSettings();
@@ -164,7 +163,6 @@ public class PlayerController : MonoBehaviour
         {
             MovePlayer();
             ScreenWrap();
-            scaleMagnitude = transform.localScale.magnitude;
         }
     }
     ///Wrap the player around the screen.
@@ -333,10 +331,18 @@ public class PlayerController : MonoBehaviour
             {
                 StartCoroutine(Absorb(other.transform.localScale.x / 16f));
                 bubBehav.Absorb();
+                if (gameSettings.sounds)
+                {
+                    //TODO play inflate sound
+                }
             } else
             {
                 if (gameSettings.vibes)
                     Handheld.Vibrate();
+                if (gameSettings.sounds)
+                {
+                    //TODO play deflate sound
+                }
                 StartCoroutine(Absorb(-other.transform.localScale.x / 16f));
             }
         }
