@@ -7,6 +7,8 @@ public class BubbleManager : MonoBehaviour
 
     public GameObject bubblePrefab;
     private float playWidth, playHeight;
+    public GameObject player;//reference to the player
+    public bool hcMode = false;
 
     // Use this for initialization
     void Start()
@@ -28,6 +30,11 @@ public class BubbleManager : MonoBehaviour
             bubble.GetComponent<BubbleBehaviour>().bubbleManager = this;
             bubble.transform.SetParent(transform);
             bubble.GetComponent<BubbleBehaviour>().Spawn();
+            if (hcMode)
+            {
+                bubble.GetComponent<BubbleBehaviour>().player = player;
+                bubble.GetComponent<BubbleBehaviour>().hcMode = hcMode;
+            }
         }
     }
 
@@ -37,6 +44,11 @@ public class BubbleManager : MonoBehaviour
         bubble.transform.position = new Vector3(Random.Range(-playWidth, playWidth), Random.Range(-playHeight, playHeight), 0f);
         bubble.SetActive(true);
         bubble.GetComponent<BubbleBehaviour>().Respawn();
+        if (hcMode)
+        {
+            bubble.GetComponent<BubbleBehaviour>().player = player;
+            bubble.GetComponent<BubbleBehaviour>().hcMode = hcMode;
+        }
     }
 	
 }

@@ -25,6 +25,8 @@ public class BubbleBehaviour : MonoBehaviour
     }
     private Renderer myRend;//reference to the renderer on this object
     private bool isWrappingX, isWrappingY;
+    public bool hcMode = false;//hcmode=force added in the direction of the player
+    public GameObject player;//reference to the player, used for hc mode
 
     void Awake()
     {
@@ -66,7 +68,7 @@ public class BubbleBehaviour : MonoBehaviour
         }
         MyCollider.radius = scale / 2f;
         MyCollider.enabled = true;
-        GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-10, 10), Random.Range(-10, 10));
+        SpawnForce();
     }
 
     IEnumerator RespawnScale()
@@ -93,7 +95,7 @@ public class BubbleBehaviour : MonoBehaviour
         }
         MyCollider.radius = scale / 2f;
         MyCollider.enabled = true;
-        GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-10, 10), Random.Range(-10, 10));
+        SpawnForce();
     }
 
     /// Called by the player when he absorbs a bubble.
@@ -115,6 +117,20 @@ public class BubbleBehaviour : MonoBehaviour
         }
         GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         bubbleManager.SaveBubble(gameObject);
+    }
+
+    private void SpawnForce()
+    {
+        //normal random force direction
+        if (!hcMode)
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-10, 10), Random.Range(-10, 10));
+        } else
+        {
+            //force in the direction of the player
+            Vector2 direct = new Vector2(player.transform.position.x, player.transform.position.y) - new Vector2(transform.position.x, transform.position.y);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(direct.normalized.x * 5f, direct.normalized.x * 10f), Random.Range(direct.normalized.y * 5f, direct.normalized.y * 10f));
+        }
     }
 
     void Update()
