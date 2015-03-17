@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private int bubbleType = 0;
     private float accelInitialX = 0, accelInitialY = 0;
     private float surviveTime = 0.0f;
+    private string surviveTimestring;//string used for formatting the time
     public Text gameTimer, startTimer;
     private HighscoreManager scoreManager;
     public GameObject pauseScreen, gameOverScreen;
@@ -259,12 +260,14 @@ public class PlayerController : MonoBehaviour
     {
         surviveTime += Time.deltaTime;
         AchievementCheck();
-        gameTimer.text = surviveTime.ToString("n2");
+        surviveTimestring = string.Format("{0:00}:{1:00}.{2:0}", (int)Mathf.Floor(surviveTime) / 60, (int)Mathf.Floor(surviveTime) % 60, ((surviveTime - Mathf.Floor(surviveTime)) * 10f));
+        gameTimer.text = surviveTimestring;
         if (transform.localScale.x <= 0.1f)
         {
             Time.timeScale = 0;
             roundOver = true;
-            gameTimer.text = surviveTime.ToString("n2");
+            surviveTimestring = string.Format("{0:00}:{1:00}.{2:00}", (int)Mathf.Floor(surviveTime) / 60, (int)Mathf.Floor(surviveTime) % 60, ((surviveTime - Mathf.Floor(surviveTime)) * 100f));
+            gameTimer.text = surviveTimestring;
             if (gameSettings.vibes)
                 Handheld.Vibrate();
 
@@ -288,6 +291,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator TrackSurviveTime()
     {
+        //just a once off set of the timer text so it doesnt look so funny at the start.
+        surviveTimestring = string.Format("{00}:{1:00}.{2:0}", (int)surviveTime / 60, (int)surviveTime % 60, (int)((surviveTime - Mathf.Floor(surviveTime)) * 10f));
+        gameTimer.text = surviveTimestring;
         int startDelay = 3;
         startTimer.gameObject.SetActive(true);
         while (startDelay > 0)
