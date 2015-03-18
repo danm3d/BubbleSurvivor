@@ -13,7 +13,7 @@ GameObject:
   - 58: {fileID: 5898642}
   - 50: {fileID: 5098642}
   - 114: {fileID: 11498642}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,8 +105,11 @@ MonoBehaviour:
   redMat: {fileID: 2100000, guid: 5dab356ca90335c4e837f42c3f056c32, type: 2}
   greenMat: {fileID: 2100000, guid: 80c2b0bb3b5559144996db6f9fad00db, type: 2}
   blueMat: {fileID: 2100000, guid: dbc3fb15d5d4f19409422b4ed4878130, type: 2}
+  isStatic: 0
   bubbleType: 0
   bubbleManager: {fileID: 0}
+  hcMode: 0
+  player: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

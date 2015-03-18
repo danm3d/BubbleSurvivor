@@ -5,7 +5,7 @@ public class PositionBorder : MonoBehaviour
 {
 
     public GameObject topBorder, bottomBorder, leftBorder, rightBorder;
-    public GameObject[] extras = new GameObject[1];
+    public GameObject[] extras = new GameObject[0];
 
     // Use this for initialization
     void Start()

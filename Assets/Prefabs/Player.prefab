@@ -14,7 +14,7 @@ GameObject:
   - 50: {fileID: 5002400}
   - 114: {fileID: 11488090}
   - 114: {fileID: 11488544}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ GameObject:
   - 4: {fileID: 494360}
   - 33: {fileID: 3397152}
   - 23: {fileID: 2304010}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 495352}
   - 212: {fileID: 21251406}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: New Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
