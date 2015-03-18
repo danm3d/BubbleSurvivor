@@ -5,6 +5,7 @@ public class PositionBorder : MonoBehaviour
 {
 
     public GameObject topBorder, bottomBorder, leftBorder, rightBorder;
+    public GameObject[] extras = new GameObject[1];
 
     // Use this for initialization
     void Start()
@@ -21,10 +22,16 @@ public class PositionBorder : MonoBehaviour
 	
     public void SetMaterial(Material newMat)
     {
+        //apply new mat to default borders
         topBorder.GetComponent<Renderer>().material = newMat;
         bottomBorder.GetComponent<Renderer>().material = newMat;
         leftBorder.GetComponent<Renderer>().material = newMat;
         rightBorder.GetComponent<Renderer>().material = newMat;
+        //apply new mat to any additional border type of thing
+        for (int i = 0; i < extras.Length; i++)
+        {
+            extras [i].GetComponent<Renderer>().material = newMat;
+        }
     }
 
 }
