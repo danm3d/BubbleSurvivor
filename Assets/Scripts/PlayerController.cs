@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 	public GameObject pauseScreen, gameOverScreen;
 	private Vector2 direction = Vector3.zero;
 	public bool arenaMode = true;
+
 	/// Gets the current move/tilt direction.
 	public Vector2 Direction
 	{
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
 	//movement direction
 	public bool menuMode = false;//is this script currently used in the main menu
+
 	public bool roundStarted = false;//has the round started
 	private bool roundOver = false;//has the current round ended
 	private Renderer myRend;//reference to the renderer on this object
@@ -176,6 +178,7 @@ public class PlayerController : MonoBehaviour
 			ScreenWrap();
 		}
 	}
+
 	///Wrap the player around the screen.
 	private void ScreenWrap()
 	{
@@ -232,12 +235,12 @@ public class PlayerController : MonoBehaviour
 		Application.LoadLevel("MainMenu");
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
+	private void OnTriggerEnter2D(Collider2D other)
 	{
 		inTrigger = true;
 	}
 
-	void OnTriggerExit2D(Collider2D other)
+	private void OnTriggerExit2D(Collider2D other)
 	{
 		inTrigger = false;
 	}
@@ -296,7 +299,6 @@ public class PlayerController : MonoBehaviour
 						Debug.Log("Score Logged");
 					});
 				}
-
 			}
 			ShowAds(scoreManager.ShowAds());
 		}
@@ -341,6 +343,7 @@ public class PlayerController : MonoBehaviour
 	}
 
 	private BubbleBehaviour bubBehav;
+
 	private void OnCollisionEnter2D(Collision2D other)
 	{
 		bubBehav = other.gameObject.GetComponent<BubbleBehaviour>();
@@ -432,5 +435,4 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 	}
-
 }

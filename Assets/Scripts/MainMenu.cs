@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-
 	private PlayerController playerControl;
 	private HighscoreManager scoreManager;
 	public Text scoreText, qualityLabel;
@@ -48,14 +46,14 @@ public class MainMenu : MonoBehaviour
 		}
 	}
 
-	void Start()
+	private void Start()
 	{
 		playerControl = GetComponent<PlayerController>();
 		scoreManager = GetComponent<HighscoreManager>();
 		social.GetComponent<GooglePlay_Social>().SignInUser();
 	}
 
-	void Update()
+	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
@@ -110,5 +108,4 @@ public class MainMenu : MonoBehaviour
 		qualityLabel.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
 		playerControl.CurrentGameSettings.qualityLevel = QualitySettings.GetQualityLevel();
 	}
-
 }

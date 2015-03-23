@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-public class SplineWalker : MonoBehaviour {
-
+public class SplineWalker : MonoBehaviour
+{
 	public BezierSpline spline;
 
 	public float duration;
@@ -13,25 +13,33 @@ public class SplineWalker : MonoBehaviour {
 	private float progress;
 	private bool goingForward = true;
 
-	private void Update () {
-		if (goingForward) {
+	private void Update()
+	{
+		if (goingForward)
+		{
 			progress += Time.deltaTime / duration;
-			if (progress > 1f) {
-				if (mode == SplineWalkerMode.Once) {
+			if (progress > 1f)
+			{
+				if (mode == SplineWalkerMode.Once)
+				{
 					progress = 1f;
 				}
-				else if (mode == SplineWalkerMode.Loop) {
+				else if (mode == SplineWalkerMode.Loop)
+				{
 					progress -= 1f;
 				}
-				else {
+				else
+				{
 					progress = 2f - progress;
 					goingForward = false;
 				}
 			}
 		}
-		else {
+		else
+		{
 			progress -= Time.deltaTime / duration;
-			if (progress < 0f) {
+			if (progress < 0f)
+			{
 				progress = -progress;
 				goingForward = true;
 			}
@@ -39,7 +47,8 @@ public class SplineWalker : MonoBehaviour {
 
 		Vector3 position = spline.GetPoint(progress);
 		transform.localPosition = position;
-		if (lookForward) {
+		if (lookForward)
+		{
 			transform.LookAt(position + spline.GetDirection(progress));
 		}
 	}
