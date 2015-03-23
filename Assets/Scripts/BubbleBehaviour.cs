@@ -11,7 +11,7 @@ public class BubbleBehaviour : MonoBehaviour
         Green = 1,
         Blue = 2
     }
-	public bool isStatic = false; //will balls stay still on start?
+    public bool isStatic = false; //will balls stay still on start?
     public BubbleType bubbleType;
     public BubbleManager bubbleManager;
     private CircleCollider2D circleCollider;
@@ -47,33 +47,33 @@ public class BubbleBehaviour : MonoBehaviour
 
     IEnumerator SpawnScale()
     {
-		if (!isStatic)
-		{
-        MyCollider.enabled = false;
-        transform.localScale = Vector3.zero;
-        bubbleType = (BubbleType)Random.Range(0, 3);
-        if (bubbleType == BubbleType.Red)
-            GetComponent<Renderer>().material = redMat;
-        else if (bubbleType == BubbleType.Green)
-            GetComponent<Renderer>().material = greenMat;
-        else
-            GetComponent<Renderer>().material = blueMat;
-
-        float scale = Random.Range(0.5f, 1.5f);
-        Vector3 oldScale = transform.localScale;
-        Vector3 newScale = new Vector3(scale, scale, scale);
-        float time = 0.0f;
-        while (time < 1.0f)
+        if (!isStatic)
         {
-            transform.localScale = Vector3.Lerp(oldScale, newScale, time);
-            yield return new WaitForSeconds(0.02f);
-            time += Time.deltaTime * 0.5f;
+            MyCollider.enabled = false;
+            transform.localScale = Vector3.zero;
+            bubbleType = (BubbleType)Random.Range(0, 3);
+            if (bubbleType == BubbleType.Red)
+                GetComponent<Renderer>().material = redMat;
+            else if (bubbleType == BubbleType.Green)
+                GetComponent<Renderer>().material = greenMat;
+            else
+                GetComponent<Renderer>().material = blueMat;
+
+            float scale = Random.Range(0.5f, 1.5f);
+            Vector3 oldScale = transform.localScale;
+            Vector3 newScale = new Vector3(scale, scale, scale);
+            float time = 0.0f;
+            while (time < 1.0f)
+            {
+                transform.localScale = Vector3.Lerp(oldScale, newScale, time);
+                yield return new WaitForSeconds(0.02f);
+                time += Time.deltaTime * 0.5f;
+            }
+            MyCollider.radius = scale / 2f;
+            MyCollider.enabled = true;
+            SpawnForce();
         }
-        MyCollider.radius = scale / 2f;
-        MyCollider.enabled = true;
-        SpawnForce();
     }
-	}
 
     IEnumerator RespawnScale()
     {
@@ -120,18 +120,18 @@ public class BubbleBehaviour : MonoBehaviour
             time += Time.deltaTime * 2f;
         }
         GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-		if (!isStatic)
-		{
-        bubbleManager.SaveBubble(gameObject);
+        if (!isStatic)
+        {
+            bubbleManager.SaveBubble(gameObject);
+        }
     }
-	}
 
     private void SpawnForce()
     {
         //normal random force direction
         if (!hcMode)
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-10, 10), Random.Range(-10, 10));
+            GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(5f, 10f) * (float)Random.Range(-1, 2), Random.Range(5f, 10f) * (float)Random.Range(-1, 2));
         } else
         {
             //force in the direction of the player
@@ -167,8 +167,7 @@ public class BubbleBehaviour : MonoBehaviour
                 isWrappingY = true;
             }
             transform.position = newPos;
-		}
-		else
+        } else
         {
             isWrappingX = false;
             isWrappingY = false;
