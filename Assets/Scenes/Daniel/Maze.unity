@@ -1238,10 +1238,12 @@ MonoBehaviour:
   redMat: {fileID: 2100000, guid: 29e35be2fd2547a419231808df7fa98e, type: 2}
   greenMat: {fileID: 2100000, guid: 0d744e44d16e2fc428670d9235758d0b, type: 2}
   blueMat: {fileID: 2100000, guid: 900cadd08bdce904da118b9f945e3aa7, type: 2}
+  neutralMat: {fileID: 2100000, guid: 37b4d8d52d858044e9a41e8db18be195, type: 2}
   gameTimer: {fileID: 710383483}
   startTimer: {fileID: 1170595593}
   pauseScreen: {fileID: 75225295}
   gameOverScreen: {fileID: 1840272739}
+  arenaMode: 0
   menuMode: 0
   roundStarted: 0
   border: {fileID: 849008933}
