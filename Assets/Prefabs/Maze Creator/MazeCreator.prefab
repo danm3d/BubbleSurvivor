@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &118874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 418874}
+  - 114: {fileID: 11418874}
+  - 65: {fileID: 6518874}
+  m_Layer: 0
+  m_Name: MazeCreator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &418874
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 118874}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!65 &6518874
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 118874}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1000, y: .00999999978, z: 1000}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11418874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 118874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4da1aead09472340b45c93950203adc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sectionSize:
+    x: 0
+    y: 0
+    width: 7.61999989
+    height: 7.61999989
+  straight_Wall: {fileID: 100016, guid: d6449750f6c014c4cbd8fb1cbd0fcd75, type: 3}
+  straightConnector_Wall: {fileID: 100016, guid: d6449750f6c014c4cbd8fb1cbd0fcd75,
+    type: 3}
+  turn_Wall: {fileID: 100030, guid: 70622a235fae6a24d9f509a3cab5ae2e, type: 3}
+  stopSection_Wall: {fileID: 100000, guid: 957efe12d2939b34cb6ea5678bad1151, type: 3}
+  stopConnector_Wall: {fileID: 100000, guid: 957efe12d2939b34cb6ea5678bad1151, type: 3}
+  tJunction_Wall: {fileID: 100038, guid: 5c66eb135cf2c8d4a88ff33f1ddd7818, type: 3}
+  start_Wall: {fileID: 183988, guid: cf0a77134f6dcd64a81c7c9e93a86ec5, type: 2}
+  crossroad_Wall: {fileID: 100000, guid: 29e0b9aa77b12c04a88622a04eed8b65, type: 3}
+  wallTorch: {fileID: 165034, guid: c8f63febadd2bd0429433f63617ec8f2, type: 2}
+  wallSandEffect: {fileID: 0}
+  normal_Floor: {fileID: 191026, guid: a4052dce8fde58d408a85d3fb96a8cf1, type: 2}
+  mazeLayer: 0
+  extras: 0
+  wallSection: 0
+  wallExtras: 0
+  floorType: 0
+  trapType: 0
+  trapPosition: 0
+  floorExtras: 0
+  quicksand: {fileID: 171990, guid: 3897b7f94671a9d4883577173344c647, type: 2}
+  skeletonGrab: {fileID: 176640, guid: 5b4060703d9b15a47810e0b8dca44c33, type: 2}
+  tombstone: {fileID: 121726, guid: 877539fc3d749574a8685cb2e454bc31, type: 2}
+  boulder: {fileID: 105354, guid: 08be792d0aabd3a4988fd9bd7b0aa148, type: 2}
+  trapdoor: {fileID: 130054, guid: e0cf5d28e8c241e42bc7a0966a0b189b, type: 2}
+  layoutImage: {fileID: 0}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 118874}
+  m_IsPrefabParent: 1
