@@ -340,14 +340,20 @@ public class MazeCreator : MonoBehaviour
 
     public float blockSize = 2f;
 
+    private List<Vector3> newVert = new List<Vector3>();
+    private List<Vector2> newUV = new List<Vector2>();
+    private List<int> newTri = new List<int>();
+    private int vertCount = 0;
+    private List<List<Vector2>> polyPoints = new List<List<Vector2>>();
+
     public Mesh MakeMazeMesh(MazeSection[,] maze)
     {
-
-        List<Vector3> newVert = new List<Vector3>();
-        List<Vector2> newUV = new List<Vector2>();
-        List<int> newTri = new List<int>();
-        int vertCount = 0;
+        newVert = new List<Vector3>();
+        newUV = new List<Vector2>();
+        newTri = new List<int>();
+        vertCount = 0;
         float xVert = 0f, yVert = 0f;
+        polyPoints = new List<List<Vector2>>();
 
         for (int x = 0; x < maze.GetLength(0); x++)
         {
@@ -358,54 +364,50 @@ public class MazeCreator : MonoBehaviour
                     xVert = (x * blockSize) * 2f;
                     yVert = (y * blockSize) * 2f;
 
-                    vertCount = newVert.Count;
                     //all section types have the base center square
-                    newVert.Add(new Vector3(xVert, 0, yVert));
-                    newVert.Add(new Vector3(xVert, 0, yVert + blockSize));
-                    newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize));
-                    newVert.Add(new Vector3(xVert + blockSize, 0, yVert));
+//                    newVert.Add(new Vector3(xVert, 0, yVert));
+//                    newVert.Add(new Vector3(xVert, 0, yVert + blockSize));
+//                    newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize));
+//                    newVert.Add(new Vector3(xVert + blockSize, 0, yVert));
+                    AddQuad(xVert, yVert);
 
-                    AddUVTri(ref newUV, ref newTri, vertCount);
                     //add additional squares according to directions of the section
                     if (maze [x, y].north)
                     {
-                        vertCount = newVert.Count;
-                        newVert.Add(new Vector3(xVert, 0, yVert + blockSize));
-                        newVert.Add(new Vector3(xVert, 0, yVert + blockSize + blockSize));
-                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize + blockSize));
-                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize));
-                        
-                        AddUVTri(ref newUV, ref newTri, vertCount);
+//                        newVert.Add(new Vector3(xVert, 0, yVert + blockSize));
+//                        newVert.Add(new Vector3(xVert, 0, yVert + blockSize + blockSize));
+//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize + blockSize));
+//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize));
+                        AddQuad(xVert, yVert + blockSize);
+
                     }
                     if (maze [x, y].east)
                     {
                         vertCount = newVert.Count;
-                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert));
-                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize));
-                        newVert.Add(new Vector3(xVert + blockSize + blockSize, 0, yVert + blockSize));
-                        newVert.Add(new Vector3(xVert + blockSize + blockSize, 0, yVert));
-                        
-                        AddUVTri(ref newUV, ref newTri, vertCount);
+//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert));
+//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize));
+//                        newVert.Add(new Vector3(xVert + blockSize + blockSize, 0, yVert + blockSize));
+//                        newVert.Add(new Vector3(xVert + blockSize + blockSize, 0, yVert));
+                        AddQuad(xVert + blockSize, yVert);
+
                     }
                     if (maze [x, y].south)
                     {
-                        vertCount = newVert.Count;
-                        newVert.Add(new Vector3(xVert, 0, yVert - blockSize));
-                        newVert.Add(new Vector3(xVert, 0, yVert));
-                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert));
-                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert - blockSize));
-                        
-                        AddUVTri(ref newUV, ref newTri, vertCount);
+//                        newVert.Add(new Vector3(xVert, 0, yVert - blockSize));
+//                        newVert.Add(new Vector3(xVert, 0, yVert));
+//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert));
+//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert - blockSize));
+                        //AddQuad(xVert, yVert - blockSize);
+
                     }
                     if (maze [x, y].west)
                     {
-                        vertCount = newVert.Count;
-                        newVert.Add(new Vector3(xVert - blockSize, 0, yVert));
-                        newVert.Add(new Vector3(xVert - blockSize, 0, yVert + blockSize));
-                        newVert.Add(new Vector3(xVert - blockSize + blockSize, 0, yVert + blockSize));
-                        newVert.Add(new Vector3(xVert - blockSize + blockSize, 0, yVert));
-                        
-                        AddUVTri(ref newUV, ref newTri, vertCount);
+//                        newVert.Add(new Vector3(xVert - blockSize, 0, yVert));
+//                        newVert.Add(new Vector3(xVert - blockSize, 0, yVert + blockSize));
+//                        newVert.Add(new Vector3(xVert - blockSize + blockSize, 0, yVert + blockSize));
+//                        newVert.Add(new Vector3(xVert - blockSize + blockSize, 0, yVert));
+                        //AddQuad(xVert - blockSize, yVert);
+
                     }
                 }
             }
@@ -422,21 +424,133 @@ public class MazeCreator : MonoBehaviour
 
         return mesh;
     }
-
-    private void AddUVTri(ref List<Vector2> uvList, ref List<int> triList, int vertCount)
+    /// <summary>
+    /// Adds the quad.
+    /// </summary>
+    /// <param name="xBase">X base position of quad.</param>
+    /// <param name="yBase">Y base position of quad.</param>
+    /// <param name="bSize">Block size.</param>
+    private void AddQuad(float xBase, float yBase)
     {
-        uvList.Add(new Vector2(0, 0));
-        uvList.Add(new Vector2(0, 1));
-        uvList.Add(new Vector2(1, 1));
-        uvList.Add(new Vector2(1, 0));
+        vertCount = newVert.Count;
+        if (!newVert.Contains(new Vector3(xBase, 0, yBase)))
+        {
+            newVert.Add(new Vector3(xBase, 0, yBase));
+            newUV.Add(new Vector2(0, 0));
+        }
+        if (!newVert.Contains(new Vector3(xBase, 0, yBase + blockSize)))
+        {
+            newVert.Add(new Vector3(xBase, 0, yBase + blockSize));
+            newUV.Add(new Vector2(0, 1));
+        }
+        if (!newVert.Contains(new Vector3(xBase + blockSize, 0, yBase + blockSize)))
+        {
+            newVert.Add(new Vector3(xBase + blockSize, 0, yBase + blockSize));
+            newUV.Add(new Vector2(1, 1));
+        }
+        if (!newVert.Contains(new Vector3(xBase + blockSize, 0, yBase)))
+        {
+            newVert.Add(new Vector3(xBase + blockSize, 0, yBase));
+            newUV.Add(new Vector2(1, 0));
+        }
+
+        List<Vector2> quadPoints = new List<Vector2>();
+        quadPoints.Add(new Vector2(xBase, yBase));
+        quadPoints.Add(new Vector2(xBase, yBase + blockSize));
+        quadPoints.Add(new Vector2(xBase + blockSize, yBase + blockSize));
+        quadPoints.Add(new Vector2(xBase + blockSize, yBase));
+        quadPoints.Add(new Vector2(xBase, yBase));
+
+        if (!polyPoints.Contains(quadPoints))
+            polyPoints.Add(quadPoints);
+
+        AddUVTri(xBase, yBase);
+    }
+
+    private void AddUVTri(float xBase, float yBase)
+    {
+
+//        //triangle 1
+//        newTri.Add(vertCount);
+//        newTri.Add(vertCount + 1);
+//        newTri.Add(vertCount + 2);
+//        //triangle 2
+//        newTri.Add(vertCount + 2);
+//        newTri.Add(vertCount + 3);
+//        newTri.Add(vertCount);
+
         //triangle 1
-        triList.Add(vertCount);
-        triList.Add(vertCount + 1);
-        triList.Add(vertCount + 2);
+        int index = newVert.FindIndex(
+            delegate(Vector3 obj)
+        {
+            return obj == new Vector3(xBase, 0, yBase);
+        }
+        );
+        //index = index == -1 ? vertCount : index;
+        newTri.Add(index);
+        
+        index = newVert.FindIndex(
+            delegate(Vector3 obj)
+        {
+            return obj == new Vector3(xBase, 0, yBase + blockSize);
+        }
+        );
+        //index = index == -1 ? vertCount + 1 : index;
+        newTri.Add(index);
+        
+        index = newVert.FindIndex(
+            delegate(Vector3 obj)
+        {
+            return obj == new Vector3(xBase + blockSize, 0, yBase + blockSize);
+        }
+        );
+        //index = index == -1 ? vertCount + 2 : index;
+        newTri.Add(index);
+
         //triangle 2
-        triList.Add(vertCount + 2);
-        triList.Add(vertCount + 3);
-        triList.Add(vertCount);
+        index = newVert.FindIndex(
+            delegate(Vector3 obj)
+        {
+            return obj == new Vector3(xBase + blockSize, 0, yBase + blockSize);
+        }
+        );
+        //index = index == -1 ? vertCount + 2 : index;
+        newTri.Add(index);
+        
+        index = newVert.FindIndex(
+            delegate(Vector3 obj)
+        {
+            return obj == new Vector3(xBase + blockSize, 0, yBase);
+        }
+        );
+        //index = index == -1 ? vertCount + 3 : index;
+        newTri.Add(index);
+        
+        index = newVert.FindIndex(
+            delegate(Vector3 obj)
+        {
+            return obj == new Vector3(xBase, 0, yBase);
+        }
+        );
+        //index = index == -1 ? vertCount : index;
+        newTri.Add(index);
+    }
+
+    public void SetMazePoints(PolygonCollider2D polyCollider)
+    {
+//        Vector2[] points = new Vector2[newVert.Count];
+//        for (int i = 0; i < newVert.Count; i++)
+//        {
+//            points [i] = new Vector2(newVert [i].x, newVert [i].z);
+//            //print(points [i].ToString());
+//        }
+
+        polyCollider.pathCount = polyPoints.Count;
+        print(polyPoints.Count);
+        for (int i = 0; i < polyPoints.Count; i++)
+        {
+            polyCollider.SetPath(i, polyPoints [i].ToArray());
+        }
     }
 
     #endregion Make Maze Mesh

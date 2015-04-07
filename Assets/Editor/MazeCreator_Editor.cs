@@ -32,7 +32,7 @@ public class MazeCreator_Editor : Editor
     private bool placing = false;//currently placing an object
     private bool upsideDown = false;//object being placed upside down
     private bool newMaze = false;//do you want to create a new maze or edit the maze
-    private Vector2 mazeSize = new Vector2(20, 20);//size of the new maze
+    private Vector2 mazeSize = new Vector2(5, 5);//size of the new maze
 
     public override void OnInspectorGUI()
     {
@@ -43,8 +43,8 @@ public class MazeCreator_Editor : Editor
 
         if (newMaze)
         {
-            mazeSize.x = Mathf.Floor(EditorGUILayout.Slider("Maze Width:", mazeSize.x, 5, 20));
-            mazeSize.y = Mathf.Floor(EditorGUILayout.Slider("Maze Height:", mazeSize.y, 5, 20));
+            mazeSize.x = Mathf.Floor(EditorGUILayout.Slider("Maze Width:", mazeSize.x, 1, 20));
+            mazeSize.y = Mathf.Floor(EditorGUILayout.Slider("Maze Height:", mazeSize.y, 1, 20));
 
             mazeCreate.blockSize = EditorGUILayout.Slider("Block Size:", mazeCreate.blockSize, 0.01f, 5f);
 
@@ -52,9 +52,10 @@ public class MazeCreator_Editor : Editor
             {
                 //MakeNewMaze ();
                 MazeCreator.MazeSection[,] maze = mazeCreate.CreateMaze((int)mazeSize.x, (int)mazeSize.y);
-                DestroyImmediate(mazeCreate.gameObject.GetComponent<MeshFilter>().sharedMesh);
-                mazeCreate.gameObject.GetComponent<MeshFilter>().sharedMesh = mazeCreate.MakeMazeMesh(maze);
-                mazeCreate.gameObject.GetComponent<MeshCollider>().sharedMesh = mazeCreate.gameObject.GetComponent<MeshFilter>().sharedMesh;
+                DestroyImmediate(mazeCreate.gameObject.GetComponentInChildren<MeshFilter>().sharedMesh);
+                mazeCreate.gameObject.GetComponentInChildren<MeshFilter>().sharedMesh = mazeCreate.MakeMazeMesh(maze);
+                mazeCreate.SetMazePoints(mazeCreate.gameObject.GetComponent<PolygonCollider2D>());
+                //SetPolyColPoints();
             }
             if (GUILayout.Button("Delete Maze"))
             {
@@ -135,6 +136,35 @@ public class MazeCreator_Editor : Editor
         {
             DestroyImmediate(mazeCreate.transform.GetChild(0).gameObject);
         }
+    }
+
+    private void SetPolyColPoints()
+    {
+        Vector2[] vertices2D = new Vector2[] {
+            new Vector2(0, 0),
+            new Vector2(0, 50),
+            new Vector2(50, 50),
+            new Vector2(50, 100),
+            new Vector2(0, 100),
+            new Vector2(0, 150),
+            new Vector2(150, 150),
+            new Vector2(150, 100),
+            new Vector2(100, 100),
+            new Vector2(100, 50),
+            new Vector2(150, 50),
+            new Vector2(150, 0),
+        };
+       
+        PolygonCollider2D polyCol = mazeCreate.gameObject.GetComponent<PolygonCollider2D>();
+
+//        polyCol.pathCount = 1;
+//        polyCol.SetPath(0, vertices2D);
+
+        for (int i = 0; i < polyCol.GetTotalPointCount(); i++)
+        {
+            Debug.Log(polyCol.points [i]);
+        }
+
     }
 
 	#region New Maze
