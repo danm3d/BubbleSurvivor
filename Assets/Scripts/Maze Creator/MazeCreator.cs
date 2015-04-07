@@ -8,114 +8,6 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class MazeCreator : MonoBehaviour
 {
-    //brick size width=381 height=182.88
-    public Rect sectionSize = new Rect(0, 0, 7.62f, 7.62f);
-
-	#region Wall section prefabs
-    public GameObject straight_Wall, straightConnector_Wall;
-    public GameObject turn_Wall;
-    public GameObject stopSection_Wall, stopConnector_Wall;
-    public GameObject tJunction_Wall;
-    public GameObject start_Wall;
-    public GameObject crossroad_Wall;
-
-    public GameObject wallTorch, wallSandEffect;
-	#endregion
-
-	#region Floor section prefabs
-
-    public GameObject normal_Floor;
-
-	#endregion
-
-    public enum MazeLayer
-    {
-        Wall = 0,
-        Floor = 1
-    }
-    public MazeLayer mazeLayer;
-    public bool extras = false;
-
-	#region Wall layer
-
-    public enum WallSectionType
-    {
-        Straight = 0,
-        StraightConnector = 1,
-        Turn = 2,
-        Stop = 3,
-        StopConnector = 4,
-        TJunction = 5,
-        Start = 6
-    }
-    public WallSectionType wallSection;
-
-    public enum WallExtras
-    {
-        Torch = 0,
-        SandEffect = 1
-    }
-    public WallExtras wallExtras;
-
-	#endregion
-
-//	public enum WallSegmentType
-//	{
-//		Segment = 0,
-//		Conector = 1
-//	}
-//	public WallSegmentType segmentType;
-
-	#region Floor layer
-
-    public enum FloorType
-    {
-        Normal = 0,
-        CenterHole = 1,
-        CornerHole = 2
-    }
-    public FloorType floorType;
-
-    public enum TrapType
-    {
-        SkeletonGrabber = 0,
-        TrapDoor = 1,
-        Boulder = 2,
-        Tombstone = 3,
-        Quicksand = 4
-    }
-    public TrapType trapType;
-
-    public enum TrapPosition
-    {
-        Center = 0,
-        Corner = 1
-    }
-    public TrapPosition trapPosition;
-
-    public enum FloorExtras
-    {
-        Sand = 0,
-        Planks = 1,
-        Vegetation = 3
-    }
-    public FloorExtras floorExtras;
-
-	#endregion
-
-    //not used
-    public enum TrapRotation
-    {
-        North = 0,
-        East = 1,
-        South = 2,
-        West = 3,
-    }
-
-    public GameObject quicksand, skeletonGrab, tombstone, boulder, trapdoor;
-
-	#region Make New Maze
-
     /// Image used to display the maze image under the actual maze.
     public RawImage layoutImage;
 
@@ -177,12 +69,8 @@ public class MazeCreator : MonoBehaviour
         return val;
     }
 
-    //private float deadStart = 8;
-    //private float deadEnd = 12;
-
     private void MazeDFS(ref MazeSection[,] maze, Vector2 pos, int arriveDirection)
     {
-        //if (!(pos.x >= deadStart && pos.x <= deadEnd) || !(pos.y >= deadStart && pos.y <= deadEnd)) {
         maze [(int)pos.x, (int)pos.y] = new MazeSection();
         //set the direction it has been arrived from
         if (arriveDirection == 0)
@@ -210,28 +98,23 @@ public class MazeCreator : MonoBehaviour
             }
             if (current == 0 && (int)pos.y + 1 < maze.GetLength(1) && maze [(int)pos.x, (int)pos.y + 1] == null)
             {
-                //if (!(pos.y + 1 >= deadStart && pos.y + 1 <= deadEnd) || !(pos.x >= deadStart && pos.x <= deadEnd))
                 maze [(int)pos.x, (int)pos.y].north = true;
                 MazeDFS(ref maze, new Vector2(pos.x, pos.y + 1), current);
             } else if (current == 1 && (int)pos.x + 1 < maze.GetLength(0) && maze [(int)pos.x + 1, (int)pos.y] == null)
             {
-                //if (!(pos.x + 1 >= deadStart && pos.x + 1 <= deadEnd) || !(pos.y >= deadStart && pos.y <= deadEnd))
                 maze [(int)pos.x, (int)pos.y].east = true;
                 MazeDFS(ref maze, new Vector2(pos.x + 1, pos.y), current);
             } else if (current == 2 && pos.y - 1 >= 0 && maze [(int)pos.x, (int)pos.y - 1] == null)
             {
-                //if (!(pos.y - 1 >= deadStart && pos.y - 1 <= deadEnd) || !(pos.x >= deadStart && pos.x <= deadEnd))
                 maze [(int)pos.x, (int)pos.y].south = true;
                 MazeDFS(ref maze, new Vector2(pos.x, pos.y - 1), current);
             } else if (current == 3 && pos.x - 1 >= 0 && maze [(int)pos.x - 1, (int)pos.y] == null)
             {
-                //if (!(pos.x - 1 >= deadStart && pos.x - 1 <= deadEnd) || !(pos.y >= deadStart && pos.y <= deadEnd))
                 maze [(int)pos.x, (int)pos.y].west = true;
                 MazeDFS(ref maze, new Vector2(pos.x - 1, pos.y), current);
             } 
             visited [current] = true;
         }
-        //}
     }
 	
     public MazeSection[,] CreateMaze(int width, int height)
@@ -266,49 +149,6 @@ public class MazeCreator : MonoBehaviour
         mazeSectionTypes [10] = new MazeSection(10, false, true, true, false);//east south bend
     }
 
-    public GameObject GetSectionPrefab(MazeSection section, ref Vector3 rotation)
-    {
-        if (section == null)
-            return null;
-        switch (section.sectionType)
-        {
-            case 0:
-                rotation = Vector3.zero;
-                return crossroad_Wall;
-            case 1:
-                rotation = Vector3.zero;
-                return straight_Wall;
-            case 2:
-                rotation = new Vector3(0, 90, 0);
-                return straight_Wall;
-            case 3:
-                rotation = new Vector3(0, 90, 0);
-                return tJunction_Wall;
-            case 4:
-                rotation = new Vector3(0, 0, 0);
-                return tJunction_Wall;
-            case 5:
-                rotation = new Vector3(0, 180, 0);
-                return tJunction_Wall;
-            case 6:
-                rotation = new Vector3(0, -90, 0);
-                return tJunction_Wall;
-            case 7:
-                rotation = new Vector3(0, 0, 0);
-                return turn_Wall;
-            case 8:
-                rotation = new Vector3(0, -90, 0);
-                return turn_Wall;
-            case 9:
-                rotation = new Vector3(0, 90, 0);
-                return turn_Wall;
-            case 10:
-                rotation = new Vector3(0, 180, 0);
-                return turn_Wall;
-        }
-        return null;
-    }
-
     private void SaveMazeImage(MazeSection[,] maze)
     {
         Texture2D[] mazeSections = new Texture2D[11];
@@ -339,19 +179,18 @@ public class MazeCreator : MonoBehaviour
     #region Maze mesh
 
     public float blockSize = 2f;
-
+    public Vector2 mazeSize = new Vector2(5, 5);//size of the new maze
     private List<Vector3> newVert = new List<Vector3>();
-    private List<Vector2> newUV = new List<Vector2>();
     private List<int> newTri = new List<int>();
-    private int vertCount = 0;
     private List<List<Vector2>> polyPoints = new List<List<Vector2>>();
+    public float uvScale = 1;
+    public Vector2 uvPosition;
+    public int uvRotation;
 
     public Mesh MakeMazeMesh(MazeSection[,] maze)
     {
         newVert = new List<Vector3>();
-        newUV = new List<Vector2>();
         newTri = new List<int>();
-        vertCount = 0;
         float xVert = 0f, yVert = 0f;
         polyPoints = new List<List<Vector2>>();
 
@@ -365,57 +204,25 @@ public class MazeCreator : MonoBehaviour
                     yVert = (y * blockSize) * 2f;
 
                     //all section types have the base center square
-//                    newVert.Add(new Vector3(xVert, 0, yVert));
-//                    newVert.Add(new Vector3(xVert, 0, yVert + blockSize));
-//                    newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize));
-//                    newVert.Add(new Vector3(xVert + blockSize, 0, yVert));
                     AddQuad(xVert, yVert);
 
                     //add additional squares according to directions of the section
                     if (maze [x, y].north)
                     {
-//                        newVert.Add(new Vector3(xVert, 0, yVert + blockSize));
-//                        newVert.Add(new Vector3(xVert, 0, yVert + blockSize + blockSize));
-//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize + blockSize));
-//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize));
                         AddQuad(xVert, yVert + blockSize);
-
                     }
                     if (maze [x, y].east)
                     {
-                        vertCount = newVert.Count;
-//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert));
-//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert + blockSize));
-//                        newVert.Add(new Vector3(xVert + blockSize + blockSize, 0, yVert + blockSize));
-//                        newVert.Add(new Vector3(xVert + blockSize + blockSize, 0, yVert));
                         AddQuad(xVert + blockSize, yVert);
-
                     }
-                    if (maze [x, y].south)
-                    {
-//                        newVert.Add(new Vector3(xVert, 0, yVert - blockSize));
-//                        newVert.Add(new Vector3(xVert, 0, yVert));
-//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert));
-//                        newVert.Add(new Vector3(xVert + blockSize, 0, yVert - blockSize));
-                        //AddQuad(xVert, yVert - blockSize);
 
-                    }
-                    if (maze [x, y].west)
-                    {
-//                        newVert.Add(new Vector3(xVert - blockSize, 0, yVert));
-//                        newVert.Add(new Vector3(xVert - blockSize, 0, yVert + blockSize));
-//                        newVert.Add(new Vector3(xVert - blockSize + blockSize, 0, yVert + blockSize));
-//                        newVert.Add(new Vector3(xVert - blockSize + blockSize, 0, yVert));
-                        //AddQuad(xVert - blockSize, yVert);
-
-                    }
                 }
             }
         }
 
         Mesh mesh = new Mesh();
         mesh.vertices = newVert.ToArray();
-        mesh.uv = newUV.ToArray();
+        mesh.uv = AddUV();
         mesh.triangles = newTri.ToArray();
         mesh.subMeshCount = 1;
         mesh.SetTriangles(newTri.ToArray(), 0);
@@ -424,34 +231,24 @@ public class MazeCreator : MonoBehaviour
 
         return mesh;
     }
-    /// <summary>
-    /// Adds the quad.
-    /// </summary>
-    /// <param name="xBase">X base position of quad.</param>
-    /// <param name="yBase">Y base position of quad.</param>
-    /// <param name="bSize">Block size.</param>
+
     private void AddQuad(float xBase, float yBase)
     {
-        vertCount = newVert.Count;
         if (!newVert.Contains(new Vector3(xBase, 0, yBase)))
         {
             newVert.Add(new Vector3(xBase, 0, yBase));
-            newUV.Add(new Vector2(0, 0));
         }
         if (!newVert.Contains(new Vector3(xBase, 0, yBase + blockSize)))
         {
             newVert.Add(new Vector3(xBase, 0, yBase + blockSize));
-            newUV.Add(new Vector2(0, 1));
         }
         if (!newVert.Contains(new Vector3(xBase + blockSize, 0, yBase + blockSize)))
         {
             newVert.Add(new Vector3(xBase + blockSize, 0, yBase + blockSize));
-            newUV.Add(new Vector2(1, 1));
         }
         if (!newVert.Contains(new Vector3(xBase + blockSize, 0, yBase)))
         {
             newVert.Add(new Vector3(xBase + blockSize, 0, yBase));
-            newUV.Add(new Vector2(1, 0));
         }
 
         List<Vector2> quadPoints = new List<Vector2>();
@@ -464,21 +261,11 @@ public class MazeCreator : MonoBehaviour
         if (!polyPoints.Contains(quadPoints))
             polyPoints.Add(quadPoints);
 
-        AddUVTri(xBase, yBase);
+        AddTri(xBase, yBase);
     }
 
-    private void AddUVTri(float xBase, float yBase)
+    private void AddTri(float xBase, float yBase)
     {
-
-//        //triangle 1
-//        newTri.Add(vertCount);
-//        newTri.Add(vertCount + 1);
-//        newTri.Add(vertCount + 2);
-//        //triangle 2
-//        newTri.Add(vertCount + 2);
-//        newTri.Add(vertCount + 3);
-//        newTri.Add(vertCount);
-
         //triangle 1
         int index = newVert.FindIndex(
             delegate(Vector3 obj)
@@ -486,7 +273,6 @@ public class MazeCreator : MonoBehaviour
             return obj == new Vector3(xBase, 0, yBase);
         }
         );
-        //index = index == -1 ? vertCount : index;
         newTri.Add(index);
         
         index = newVert.FindIndex(
@@ -495,7 +281,6 @@ public class MazeCreator : MonoBehaviour
             return obj == new Vector3(xBase, 0, yBase + blockSize);
         }
         );
-        //index = index == -1 ? vertCount + 1 : index;
         newTri.Add(index);
         
         index = newVert.FindIndex(
@@ -504,7 +289,6 @@ public class MazeCreator : MonoBehaviour
             return obj == new Vector3(xBase + blockSize, 0, yBase + blockSize);
         }
         );
-        //index = index == -1 ? vertCount + 2 : index;
         newTri.Add(index);
 
         //triangle 2
@@ -514,7 +298,6 @@ public class MazeCreator : MonoBehaviour
             return obj == new Vector3(xBase + blockSize, 0, yBase + blockSize);
         }
         );
-        //index = index == -1 ? vertCount + 2 : index;
         newTri.Add(index);
         
         index = newVert.FindIndex(
@@ -523,7 +306,6 @@ public class MazeCreator : MonoBehaviour
             return obj == new Vector3(xBase + blockSize, 0, yBase);
         }
         );
-        //index = index == -1 ? vertCount + 3 : index;
         newTri.Add(index);
         
         index = newVert.FindIndex(
@@ -532,21 +314,31 @@ public class MazeCreator : MonoBehaviour
             return obj == new Vector3(xBase, 0, yBase);
         }
         );
-        //index = index == -1 ? vertCount : index;
         newTri.Add(index);
     }
 
-    public void SetMazePoints(PolygonCollider2D polyCollider)
+    private Vector2[] AddUV()
     {
-//        Vector2[] points = new Vector2[newVert.Count];
-//        for (int i = 0; i < newVert.Count; i++)
-//        {
-//            points [i] = new Vector2(newVert [i].x, newVert [i].z);
-//            //print(points [i].ToString());
-//        }
+        var scale = uvScale != 0 ? (1 / uvScale) : 0;
+        var matrix = Matrix4x4.TRS(new Vector3(-uvPosition.x, 0, -uvPosition.y), Quaternion.Euler(0, uvRotation, 0), new Vector3(scale * blockSize, scale * blockSize, scale));
+        var uv = new Vector2[newVert.Count];
+        for (int i = 0; i < uv.Length; i++)
+        {
+            var p = matrix.MultiplyPoint(newVert [i]);
+            uv [i] = new Vector2(p.x, p.z);
+        }
+        return uv;
+    }
 
+    public void RemakeUV()
+    {
+        GetComponentInChildren<MeshFilter>().sharedMesh.uv = AddUV();
+    }
+
+    public void SetMazePoints()
+    {
+        PolygonCollider2D polyCollider = GetComponent<PolygonCollider2D>();
         polyCollider.pathCount = polyPoints.Count;
-        print(polyPoints.Count);
         for (int i = 0; i < polyPoints.Count; i++)
         {
             polyCollider.SetPath(i, polyPoints [i].ToArray());
@@ -554,7 +346,5 @@ public class MazeCreator : MonoBehaviour
     }
 
     #endregion Make Maze Mesh
-
-	#endregion
 
 }
