@@ -2381,7 +2381,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 410875367}
         m_MethodName: Play
@@ -2405,6 +2405,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2002399967}
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: Play
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -6298,6 +6310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb81f7c515b25344b20a8782c6a4735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inflateSound: {fileID: 0}
+  deflateSound: {fileID: 0}
   redMat: {fileID: 2100000, guid: 5dab356ca90335c4e837f42c3f056c32, type: 2}
   greenMat: {fileID: 2100000, guid: 80c2b0bb3b5559144996db6f9fad00db, type: 2}
   blueMat: {fileID: 2100000, guid: dbc3fb15d5d4f19409422b4ed4878130, type: 2}

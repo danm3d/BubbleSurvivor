@@ -60,8 +60,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116288}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.33999991, z: 0}
+  m_LocalRotation: {x: .70710659, y: 0, z: 0, w: -.707106948}
+  m_LocalPosition: {x: 453.288818, y: 45.4925346, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 495352}
@@ -86,8 +86,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 182394}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: .5}
+  m_LocalRotation: {x: .70710659, y: 0, z: 0, w: -.707106948}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 2}
   m_Children: []
   m_Father: {fileID: 465426}
@@ -146,7 +146,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116288}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 3d60a017e4cee314d823b199d601eae7, type: 3}
 --- !u!33 &3397152
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -193,13 +193,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb81f7c515b25344b20a8782c6a4735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inflateSound: {fileID: 0}
+  deflateSound: {fileID: 0}
   redMat: {fileID: 2100000, guid: 29e35be2fd2547a419231808df7fa98e, type: 2}
   greenMat: {fileID: 2100000, guid: 0d744e44d16e2fc428670d9235758d0b, type: 2}
   blueMat: {fileID: 2100000, guid: 900cadd08bdce904da118b9f945e3aa7, type: 2}
+  neutralMat: {fileID: 0}
   gameTimer: {fileID: 0}
   startTimer: {fileID: 0}
   pauseScreen: {fileID: 0}
   gameOverScreen: {fileID: 0}
+  arenaMode: 1
   menuMode: 0
   roundStarted: 0
   border: {fileID: 0}

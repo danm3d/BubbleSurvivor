@@ -31,6 +31,7 @@ GameObject:
   - 58: {fileID: 5873082}
   - 23: {fileID: 2316328}
   - 33: {fileID: 3329154}
+  - 82: {fileID: 8236550}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -667,7 +668,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 138878}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -.407294899, y: 0, z: 0, w: -.9132967}
   m_LocalPosition: {x: 1.01104736, y: .0144681334, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -739,7 +740,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 102464}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: .70710659, y: 0, z: 0, w: -.707106948}
   m_LocalPosition: {x: 0, y: -3.33999991, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -777,7 +778,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115832}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: .70710659, y: 0, z: 0, w: -.707106948}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
@@ -1032,7 +1033,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 102464}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 3d60a017e4cee314d823b199d601eae7, type: 3}
 --- !u!33 &3330322
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -1157,16 +1158,85 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 016f03d0f94c8fd4cafac82a8c4ad959, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: .800000012
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 20
+  MaxDistance: 20.2000008
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!82 &8236550
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 102464}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 20
+  MaxDistance: 20.2000008
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -1310,13 +1380,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb81f7c515b25344b20a8782c6a4735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inflateSound: {fileID: 8300000, guid: 4349c5a74531d0c4cbd6bdbe9aeb1aa2, type: 3}
+  deflateSound: {fileID: 8300000, guid: dde72ad5cb7497a488d3a25c09b3c439, type: 3}
   redMat: {fileID: 2100000, guid: 29e35be2fd2547a419231808df7fa98e, type: 2}
   greenMat: {fileID: 2100000, guid: 0d744e44d16e2fc428670d9235758d0b, type: 2}
   blueMat: {fileID: 2100000, guid: 900cadd08bdce904da118b9f945e3aa7, type: 2}
+  neutralMat: {fileID: 0}
   gameTimer: {fileID: 11448030}
   startTimer: {fileID: 11495910}
   pauseScreen: {fileID: 130598}
   gameOverScreen: {fileID: 139248}
+  arenaMode: 1
   menuMode: 0
   roundStarted: 0
   border: {fileID: 11457870}

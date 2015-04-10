@@ -130,26 +130,6 @@ Prefab:
       propertyPath: m_Name
       value: Everything
       objectReference: {fileID: 0}
-    - target: {fileID: 401898, guid: 7cb44a95d1a431f4c825551d08924bc5, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -.407294899
-      objectReference: {fileID: 0}
-    - target: {fileID: 401898, guid: 7cb44a95d1a431f4c825551d08924bc5, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: -.9132967
-      objectReference: {fileID: 0}
-    - target: {fileID: 8229444, guid: 7cb44a95d1a431f4c825551d08924bc5, type: 2}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 016f03d0f94c8fd4cafac82a8c4ad959, type: 3}
-    - target: {fileID: 8229444, guid: 7cb44a95d1a431f4c825551d08924bc5, type: 2}
-      propertyPath: Loop
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401130, guid: 7cb44a95d1a431f4c825551d08924bc5, type: 2}
-      propertyPath: arenaMode
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7cb44a95d1a431f4c825551d08924bc5, type: 2}
   m_IsPrefabParent: 0
