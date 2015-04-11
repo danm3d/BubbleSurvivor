@@ -8,6 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
   - enabled: 1
-    path: Assets/Scenes/Play.unity
+    path: Assets/Scenes/Classic.unity
   - enabled: 1
     path: Assets/Scenes/Daniel/Maze.unity

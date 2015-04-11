@@ -1157,10 +1157,11 @@ AudioSource:
   m_GameObject: {fileID: 163752}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300001, guid: b1089135b890d8441911719677dd66e4,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 016f03d0f94c8fd4cafac82a8c4ad959, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: .800000012
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1226,11 +1227,12 @@ AudioSource:
   m_GameObject: {fileID: 102464}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300001, guid: b1089135b890d8441911719677dd66e4,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: .400000006
+  m_Pitch: .800000012
   Loop: 0
   Mute: 0
   Priority: 128
@@ -1380,8 +1382,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb81f7c515b25344b20a8782c6a4735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inflateSound: {fileID: 8300000, guid: 4349c5a74531d0c4cbd6bdbe9aeb1aa2, type: 3}
-  deflateSound: {fileID: 8300000, guid: dde72ad5cb7497a488d3a25c09b3c439, type: 3}
+  inflateSound: {fileID: 8300000, guid: 03f97129eced7994cb7d6914e74626a1, type: 3}
+  deflateSound: {fileID: 8300000, guid: 27c32ffd112d6b1489212330419cc7c3, type: 3}
   redMat: {fileID: 2100000, guid: 29e35be2fd2547a419231808df7fa98e, type: 2}
   greenMat: {fileID: 2100000, guid: 0d744e44d16e2fc428670d9235758d0b, type: 2}
   blueMat: {fileID: 2100000, guid: 900cadd08bdce904da118b9f945e3aa7, type: 2}

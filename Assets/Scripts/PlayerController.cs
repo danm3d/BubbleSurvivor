@@ -63,6 +63,8 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
+            if (gameSettings == null)
+                LoadSettings();
             return gameSettings;
         }
         set
@@ -162,6 +164,7 @@ public class PlayerController : MonoBehaviour
         if (gameSettings == null)
             gameSettings = new GameSettings();
         musicAudio.enabled = gameSettings.sounds;
+        QualitySettings.SetQualityLevel(gameSettings.qualityLevel);
         if (!menuMode)
             LoadAudio();
     }

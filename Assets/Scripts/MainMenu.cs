@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     public Text scoreText, qualityLabel;
     public Toggle accel, sounds, shake;
     public GameObject quitMenu, mainMenu, optionsMenu, scoreMenu, social;
+    private AudioSource clickAudio;
 
     public bool Accelerometer
     {
@@ -30,7 +31,11 @@ public class MainMenu : MonoBehaviour
         set
         {
             playerControl.CurrentGameSettings.sounds = value;
-            Camera.main.GetComponent<AudioSource>().enabled = value;
+            //Camera.main.GetComponents<AudioSource>().enabled = value;
+            foreach (AudioSource audioSource in Camera.main.GetComponents<AudioSource>())
+            {
+                audioSource.enabled = value;
+            }
         }
     }
 
@@ -51,6 +56,8 @@ public class MainMenu : MonoBehaviour
         playerControl = GetComponent<PlayerController>();
         scoreManager = GetComponent<HighscoreManager>();
         social.GetComponent<GooglePlay_Social>().SignInUser();
+        Sounds = playerControl.CurrentGameSettings.sounds;
+        clickAudio = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -111,4 +118,13 @@ public class MainMenu : MonoBehaviour
         qualityLabel.text = QualitySettings.names [QualitySettings.GetQualityLevel()];
         playerControl.CurrentGameSettings.qualityLevel = QualitySettings.GetQualityLevel();
     }
+
+    public void ButtonClickSound()
+    {
+        if (Sounds)
+        {
+            clickAudio.Play();
+        }
+    }
+
 }
