@@ -117,9 +117,7 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        //Record initial rotation to adjust for starting rotation.
-        accelInitialX = Mathf.Clamp(Input.acceleration.x, -0.5f, 0.5f);
-        accelInitialY = Mathf.Clamp(Input.acceleration.y, -0.5f, 0.5f);
+        RecordInitialRotation();
 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         LoadSettings();
@@ -136,6 +134,13 @@ public class PlayerController : MonoBehaviour
             }
             StartCoroutine(TrackSurviveTime());
         }
+    }
+
+    private void RecordInitialRotation()
+    {
+        //Record initial rotation to adjust for starting rotation.
+        accelInitialX = Mathf.Clamp(Input.acceleration.x, -0.2f, 0.2f);
+        accelInitialY = Mathf.Clamp(Input.acceleration.y, -0.2f, 0.2f);
     }
 
     private void OnDestroy()
@@ -296,7 +301,7 @@ public class PlayerController : MonoBehaviour
         {
             Time.timeScale = 0;
             musicAudio.Pause();
-            var reportedScore = surviveTime * 1000;
+            var reportedScore = surviveTime * 1000f;
             roundOver = true;
             surviveTimestring = string.Format("{0:00}:{1:00}.{2:00}", (int)Mathf.Floor(surviveTime) / 60, (int)Mathf.Floor(surviveTime) % 60, ((surviveTime - Mathf.Floor(surviveTime)) * 100f));
             gameTimer.text = surviveTimestring;
@@ -310,6 +315,7 @@ public class PlayerController : MonoBehaviour
                 //can only post to the online leaderboard when logged in
                 if (PlayGamesPlatform.Instance.localUser.authenticated)
                 {
+                    //TODO ensure logged time here is correct
                     PlayGamesPlatform.Instance.ReportScore((long)reportedScore, "CgkIif2dm5QIEAIQAg", (bool success) =>
                     {
                         Debug.Log("Score Logged");
