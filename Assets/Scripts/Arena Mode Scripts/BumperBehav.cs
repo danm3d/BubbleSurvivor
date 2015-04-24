@@ -6,23 +6,22 @@ public class BumperBehav : MonoBehaviour
 
     private Animator anim;
     private bool bumping = false;
-    //private BoxCollider2D boxColl;
 	
     void Start()
     {
         anim = GetComponent<Animator>();
-        //boxColl = GetComponent<BoxCollider2D>();
+        anim.SetBool("Bumping", bumping);
     }
 	
     void OnTriggerEnter2D(Collider2D collider)
     {
-        ToggleBump();
+        bumping = true;
+        anim.SetBool("Bumping", bumping);
     }
 
     public void ToggleBump()
     {
-        //boxColl.enabled = bumping;
-        bumping = !bumping;
+        bumping = false;
         anim.SetBool("Bumping", bumping);
     }
 

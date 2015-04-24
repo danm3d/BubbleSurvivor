@@ -75,13 +75,13 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleIdentifier: com.BigHairGames.BubbleSurvivor
-  bundleVersion: 1.0.2
+  bundleVersion: 1.0.3
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   xboxOneDisableKinectGpuReservation: 0
   productGUID: 64e8cc1a12a619a4ca6a32902cf442c5
-  AndroidBundleVersionCode: 3
+  AndroidBundleVersionCode: 4
   AndroidMinSdkVersion: 14
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -121,7 +121,7 @@ PlayerSettings:
   iOSLaunchScreenCustomXibPath: 
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
-  AndroidKeystoreName: C:/Users/v-danmen/Documents/Git/BubbleSurvivor/Keystores/BigHairGames.keystore
+  AndroidKeystoreName: C:/Users/Benjamen/Documents/GitHub/BubbleSurvivor/Keystores/BigHairGames.keystore
   AndroidKeyaliasName: bubblesurvival
   AndroidTVCompatibility: 0
   AndroidIsGame: 1

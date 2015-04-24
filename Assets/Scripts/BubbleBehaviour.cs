@@ -134,7 +134,7 @@ public class BubbleBehaviour : MonoBehaviour
         //normal random force direction
         if (!hcMode)
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(5f, 10f) * ((float)(Random.Range(0, 2) * 2) - 1), Random.Range(5f, 10f) * ((float)(Random.Range(0, 2) * 2) - 1));
+            GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(5f, 10f) * ((float)(Random.Range(0, 2) * 2) - 1), Random.Range(3f, 7f) * ((float)(Random.Range(0, 2) * 2) - 1));
         } else
         {
             //force in the direction of the player
