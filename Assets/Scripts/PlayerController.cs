@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using UnityEngine.UI;
+using GoogleMobileAds.Api;
 
 public class PlayerController : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public GameObject pauseScreen, gameOverScreen;
     private Vector2 direction = Vector3.zero;
     public bool arenaMode = true;
+    private BannerView myAdBanner;
 
     /// Gets the current move/tilt direction.
     public Vector2 Direction
@@ -39,7 +41,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //movement direction
     public bool menuMode = false;//is this script currently used in the main menu
 
     public bool roundStarted = false;//has the round started
@@ -85,6 +86,8 @@ public class PlayerController : MonoBehaviour
             myRend = GetComponent<Renderer>();
             myRigidbody = GetComponent<Rigidbody2D>();
             effectsAudio = GetComponent<AudioSource>();
+            myAdBanner = Utilities.RequestBanner("ca-app-pub-5991018030151740/1658475310", AdSize.Banner, AdPosition.Bottom);
+            myAdBanner.Hide();
         }
         if (Advertisement.isSupported)
         {
@@ -147,11 +150,20 @@ public class PlayerController : MonoBehaviour
     {
         SaveAudio();
         SaveSettings();
+        if (myAdBanner != null)
+            myAdBanner.Destroy();
     }
 
     private void LoadAudio()
     {
-        audioPlaytime = Utilities.LoadClass<AudioPlaytime>("/BubbleSurvivor/audPlay.ap");
+        try
+        {
+            audioPlaytime = Utilities.LoadClass<AudioPlaytime>(Application.persistentDataPath + @"/BubbleSurvivor/audPlay.ap");
+        } catch
+        {
+            //if (audioPlaytime == null)
+            audioPlaytime = new AudioPlaytime();
+        }
         if (audioPlaytime == null)
             audioPlaytime = new AudioPlaytime();
         musicAudio.time = audioPlaytime.playTime;
@@ -160,12 +172,19 @@ public class PlayerController : MonoBehaviour
 
     private void SaveAudio()
     {
-        Utilities.SaveClass("/BubbleSurvivor/audPlay.ap", audioPlaytime);
+        Utilities.SaveClass(Application.persistentDataPath + @"/BubbleSurvivor/audPlay.ap", audioPlaytime);
     }
 
     private void LoadSettings()
     {
-        gameSettings = Utilities.LoadClass<GameSettings>("/BubbleSurvivor/Settings.sts");
+        try
+        {
+            gameSettings = Utilities.LoadClass<GameSettings>(Application.persistentDataPath + @"/BubbleSurvivor/Settings.sts");
+        } catch
+        {
+            //if (gameSettings == null)
+            gameSettings = new GameSettings();
+        }
         if (gameSettings == null)
             gameSettings = new GameSettings();
         musicAudio.enabled = gameSettings.sounds;
@@ -176,7 +195,7 @@ public class PlayerController : MonoBehaviour
 
     private void SaveSettings()
     {
-        Utilities.SaveClass("/BubbleSurvivor/Settings.sts", gameSettings);
+        Utilities.SaveClass(Application.persistentDataPath + @"/BubbleSurvivor/Settings.sts", gameSettings);
     }
 
     // Update is called once per frame
@@ -230,6 +249,7 @@ public class PlayerController : MonoBehaviour
 
     public void PauseGame()
     {
+        myAdBanner.Show();
         Time.timeScale = 0;
         musicAudio.Pause();
         pauseScreen.SetActive(true);
@@ -237,6 +257,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResumeGame()
     {
+        myAdBanner.Hide();
         Time.timeScale = 1;
         musicAudio.UnPause();
         pauseScreen.SetActive(false);
@@ -309,13 +330,13 @@ public class PlayerController : MonoBehaviour
                 Handheld.Vibrate();
 
             gameOverScreen.SetActive(true);
+            myAdBanner.Show();
             if (scoreManager.RecordValue(surviveTime))
             {
                 gameOverScreen.transform.FindChild("HighScoreText").gameObject.SetActive(true);
                 //can only post to the online leaderboard when logged in
                 if (PlayGamesPlatform.Instance.localUser.authenticated)
                 {
-                    //TODO ensure logged time here is correct
                     PlayGamesPlatform.Instance.ReportScore((long)reportedScore, "CgkIif2dm5QIEAIQAg", (bool success) =>
                     {
                         Debug.Log("Score Logged");

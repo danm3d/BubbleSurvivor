@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using GoogleMobileAds.Api;
 
 public class MainMenu : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class MainMenu : MonoBehaviour
     public Toggle accel, sounds, shake;
     public GameObject quitMenu, mainMenu, optionsMenu, scoreMenu, social;
     private AudioSource clickAudio;
+    private BannerView myAdBanner;
 
     public bool Accelerometer
     {
@@ -58,6 +60,9 @@ public class MainMenu : MonoBehaviour
         social.GetComponent<GooglePlay_Social>().SignInUser();
         Sounds = playerControl.CurrentGameSettings.sounds;
         clickAudio = GetComponent<AudioSource>();
+        myAdBanner = Utilities.RequestBanner("ca-app-pub-5991018030151740/1658475310", AdSize.SmartBanner, AdPosition.Bottom);
+        if (myAdBanner != null)
+            myAdBanner.Show();
     }
 
     private void Update()
@@ -125,6 +130,12 @@ public class MainMenu : MonoBehaviour
         {
             clickAudio.Play();
         }
+    }
+
+    void OnDestroy()
+    {
+        if (myAdBanner != null)
+            myAdBanner.Destroy();
     }
 
 }
