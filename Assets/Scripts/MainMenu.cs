@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
     private HighscoreManager scoreManager;
     public Text scoreText, qualityLabel;
     public Toggle accel, sounds, shake;
-    public GameObject quitMenu, mainMenu, optionsMenu, scoreMenu, social;
+    public GameObject quitMenu, mainMenu, optionsMenu, scoreMenu, social, loadScreen;
     private AudioSource clickAudio;
     private BannerView myAdBanner;
 
@@ -97,11 +97,13 @@ public class MainMenu : MonoBehaviour
 
     public void Play(int level)
     {
+        loadScreen.SetActive(true);
         Application.LoadLevel(level);
     }
 
     public void Play(string levelName)
     {
+        loadScreen.SetActive(true);
         Application.LoadLevel(levelName);
     }
 

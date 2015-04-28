@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     private string surviveTimestring;//string used for formatting the time
     public Text gameTimer, startTimer;
     private HighscoreManager scoreManager;
-    public GameObject pauseScreen, gameOverScreen;
+    public GameObject pauseScreen, gameOverScreen, loadScreen;
     private Vector2 direction = Vector3.zero;
     public bool arenaMode = true;
     private BannerView myAdBanner;
@@ -265,6 +265,7 @@ public class PlayerController : MonoBehaviour
 
     public void PlayAgain()
     {
+        loadScreen.SetActive(true);
         Time.timeScale = 1;
         audioPlaytime.playTime = musicAudio.time;
         Application.LoadLevel(Application.loadedLevelName);//oh yes indeed... So much replay...
@@ -272,6 +273,7 @@ public class PlayerController : MonoBehaviour
 
     public void ToMenu()
     {
+        loadScreen.SetActive(true);
         Time.timeScale = 1;
         audioPlaytime.playTime = 0.0f;
         Application.LoadLevel("MainMenu");

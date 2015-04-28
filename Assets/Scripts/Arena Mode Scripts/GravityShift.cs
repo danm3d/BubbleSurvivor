@@ -22,7 +22,8 @@ public class GravityShift : MonoBehaviour
         {
             direction = Random.Range(0, 4);
             areaEffect.forceDirection = 90f * direction;
-            directionSprite.sprite = directions [direction];
+            //directionSprite.sprite = directions [direction];
+            directionSprite.transform.rotation = Quaternion.Euler(0, 0, 90f * direction);
             yield return new WaitForSeconds(Random.Range(5f, 10f));
         }
     }
