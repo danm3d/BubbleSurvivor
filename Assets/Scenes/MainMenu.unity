@@ -4383,7 +4383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: 7381646b86c158b4b9cadfdcccbe36b6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6cda88b9e22eb894ead93589abb4d6d5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7533,7 +7533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: 3fb96ad7a679cfb43979fc64bce7a6b1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 11b22b95457ffce44a75f7248ece901b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7708,6 +7708,7 @@ MonoBehaviour:
   startTimer: {fileID: 0}
   pauseScreen: {fileID: 0}
   gameOverScreen: {fileID: 0}
+  loadScreen: {fileID: 0}
   arenaMode: 0
   menuMode: 1
   roundStarted: 0
