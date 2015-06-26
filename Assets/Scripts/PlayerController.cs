@@ -101,18 +101,18 @@ public class PlayerController : MonoBehaviour
 
     private void ShowAds(bool show)
     {
-        if (show && Advertisement.isReady())
-        {
-            // Show with default zone, pause engine and print result to debug log
-            Advertisement.Show(null, new ShowOptions
-			{
-				pause = true,
-				resultCallback = result =>
-				{
-					Debug.Log(result.ToString());
-				}
-			});
-        }
+//        if (show && Advertisement.isReady())
+//        {
+//            // Show with default zone, pause engine and print result to debug log
+//            Advertisement.Show(null, new ShowOptions
+//			{
+//				pause = true,
+//				resultCallback = result =>
+//				{
+//					Debug.Log(result.ToString());
+//				}
+//			});
+//        }
     }
 
 	#endregion unity Ads
@@ -396,7 +396,7 @@ public class PlayerController : MonoBehaviour
         {
             if ((int)bubBehav.bubbleType == bubbleType)
             {
-                StartCoroutine(Absorb(other.transform.localScale.x / 16f));
+                StartCoroutine(Absorb(other.transform.localScale.x));
                 bubBehav.Absorb();
                 if (gameSettings.sounds)
                 {
@@ -410,7 +410,7 @@ public class PlayerController : MonoBehaviour
                 {
                     effectsAudio.PlayOneShot(deflateSound);
                 }
-                StartCoroutine(Absorb(-other.transform.localScale.x / 16f));
+                StartCoroutine(Absorb(-other.transform.localScale.x));
             }
         }
     }
@@ -418,13 +418,15 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Absorb(float scale)
     {
         float timer = 0.0f;
-        Vector3 from = Vector3.zero;
-        Vector3 to = new Vector3(scale, scale, scale);
+//        Vector3 from = Vector3.zero;
+//        Vector3 to = new Vector3(scale, scale, scale);
         Vector3 newScale = Vector3.zero;
+        Vector3 step = new Vector3(scale, scale, scale);
+        step /= 50f;
         while (timer < 1.0f)
         {
-            newScale = Vector3.Lerp(from, to, timer);
-            newScale += transform.localScale;
+            newScale = transform.localScale;
+            newScale += step;
             transform.localScale = newScale;
 
             yield return new WaitForSeconds(0.02f);
