@@ -68,7 +68,7 @@ public class MazeCreator : MonoBehaviour
         }
         return val;
     }
-
+    //Depth first search
     private void MazeDFS(ref MazeSection[,] maze, Vector2 pos, int arriveDirection)
     {
         maze [(int)pos.x, (int)pos.y] = new MazeSection();

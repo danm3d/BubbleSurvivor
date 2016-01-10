@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     private string surviveTimestring;//string used for formatting the time
     public Text gameTimer, startTimer;
     private HighscoreManager scoreManager;
-    public GameObject pauseScreen, gameOverScreen, loadScreen;
+    public GameObject pauseScreen, gameOverScreen, loadScreen, startScreen;
     private Vector2 direction = Vector3.zero;
     public bool arenaMode = true;
     private BannerView myAdBanner;
@@ -86,17 +86,19 @@ public class PlayerController : MonoBehaviour
             myRend = GetComponent<Renderer>();
             myRigidbody = GetComponent<Rigidbody2D>();
             effectsAudio = GetComponent<AudioSource>();
-            myAdBanner = Utilities.RequestBanner("ca-app-pub-5991018030151740/1658475310", AdSize.Banner, AdPosition.Bottom);
-            myAdBanner.Hide();
+//            myAdBanner = Utilities.RequestBanner("ca-app-pub-5991018030151740/1658475310", AdSize.Banner, AdPosition.Bottom);
+            if (myAdBanner != null)
+                myAdBanner.Hide();
         }
-        if (Advertisement.isSupported)
-        {
-            Advertisement.allowPrecache = true;
-            Advertisement.Initialize("25086", false);
-        } else
-        {
-            Debug.Log("Platform not supported");
-        }
+        //removing video ads for now
+//        if (Advertisement.isSupported)
+//        {
+//            Advertisement.allowPrecache = true;
+//            Advertisement.Initialize("25086", false);
+//        } else
+//        {
+//            Debug.Log("Platform not supported");
+//        }
     }
 
     private void ShowAds(bool show)
@@ -117,7 +119,6 @@ public class PlayerController : MonoBehaviour
 
 	#endregion unity Ads
 
-    // Use this for initialization
     private void Start()
     {
         RecordInitialRotation();
@@ -136,6 +137,10 @@ public class PlayerController : MonoBehaviour
                 myRend.material = neutralMat;
             }
             StartCoroutine(TrackSurviveTime());
+            //stop time from running till start game button is pressed
+            Time.timeScale = 0;
+            musicAudio.Pause();
+            loadScreen.SetActive(false);
         }
     }
 
@@ -198,23 +203,28 @@ public class PlayerController : MonoBehaviour
         Utilities.SaveClass(Application.persistentDataPath + @"/BubbleSurvivor/Settings.sts", gameSettings);
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !menuMode && !roundOver)
         {
             PauseGame();
         }
-    }
-
-    private void FixedUpdate()
-    {
         if (!menuMode)
         {
             MovePlayer();
-            ScreenWrap();
+            //myRend.material.color = new Color(myRend.material.color.r, myRend.material.color.g, myRend.material.color.b, 0.5f + (Mathf.PerlinNoise(Time.time * 0.5f, 0f) * 0.5f));
+            //ScreenWrap();
         }
     }
+
+//    private void FixedUpdate()
+//    {
+//        if (!menuMode)
+//        {
+//            MovePlayer();
+//            ScreenWrap();
+//        }
+//    }
 
     ///Wrap the player around the screen.
     private void ScreenWrap()
@@ -249,7 +259,8 @@ public class PlayerController : MonoBehaviour
 
     public void PauseGame()
     {
-        myAdBanner.Show();
+        if (myAdBanner != null)
+            myAdBanner.Show();
         Time.timeScale = 0;
         musicAudio.Pause();
         pauseScreen.SetActive(true);
@@ -257,10 +268,12 @@ public class PlayerController : MonoBehaviour
 
     public void ResumeGame()
     {
-        myAdBanner.Hide();
+        if (myAdBanner != null)
+            myAdBanner.Hide();
         Time.timeScale = 1;
         musicAudio.UnPause();
         pauseScreen.SetActive(false);
+        startScreen.SetActive(false);
     }
 
     public void PlayAgain()
@@ -332,7 +345,8 @@ public class PlayerController : MonoBehaviour
                 Handheld.Vibrate();
 
             gameOverScreen.SetActive(true);
-            myAdBanner.Show();
+            if (myAdBanner != null)
+                myAdBanner.Show();
             if (scoreManager.RecordValue(surviveTime))
             {
                 gameOverScreen.transform.FindChild("HighScoreText").gameObject.SetActive(true);
@@ -353,6 +367,7 @@ public class PlayerController : MonoBehaviour
     {
         //just a once off set of the timer text so it doesnt look so funny at the start.
         surviveTimestring = string.Format("{00}:{1:00}.{2:0}", (int)surviveTime / 60, (int)surviveTime % 60, (int)((surviveTime - Mathf.Floor(surviveTime)) * 10f));
+        //set starting countdown text
         gameTimer.text = surviveTimestring;
         int startDelay = 3;
         startTimer.gameObject.SetActive(true);
@@ -363,6 +378,7 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
         startTimer.gameObject.SetActive(false);
+        //track survived time
         roundStarted = true;
         for (; ;)
         {
@@ -391,6 +407,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        print("player collision");
         bubBehav = other.gameObject.GetComponent<BubbleBehaviour>();
         if (bubBehav != null)
         {

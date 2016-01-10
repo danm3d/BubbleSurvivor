@@ -69,7 +69,7 @@ public class BubbleBehaviour : MonoBehaviour
                 yield return new WaitForFixedUpdate();
                 time += Time.fixedDeltaTime * (1f / 3f);
             }
-            MyCollider.radius = scale / 2f;
+//            MyCollider.radius = scale / 2f;
             MyCollider.enabled = true;
             SpawnForce();
         }
@@ -97,7 +97,7 @@ public class BubbleBehaviour : MonoBehaviour
             yield return new WaitForFixedUpdate();
             time += Time.fixedDeltaTime * 0.5f;
         }
-        MyCollider.radius = scale / 2f;
+//        MyCollider.radius = scale / 2f;
         MyCollider.enabled = true;
         SpawnForce();
     }

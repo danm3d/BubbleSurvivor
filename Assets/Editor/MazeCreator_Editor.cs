@@ -84,8 +84,8 @@ public class MazeCreator_Editor : Editor
     private void MakeNewMaze()
     {
         MazeCreator.MazeSection[,] maze = mazeCreate.CreateMaze((int)mazeCreate.mazeSize.x, (int)mazeCreate.mazeSize.y);
-        DestroyImmediate(mazeCreate.gameObject.GetComponentInChildren<MeshFilter>().sharedMesh);
-        mazeCreate.gameObject.GetComponentInChildren<MeshFilter>().sharedMesh = mazeCreate.MakeMazeMesh(maze);
+        //DestroyImmediate(mazeCreate.gameObject.GetComponentInChildren<MeshFilter>().sharedMesh);
+        //mazeCreate.gameObject.GetComponentInChildren<MeshFilter>().sharedMesh = mazeCreate.MakeMazeMesh(maze);
         mazeCreate.SetMazePoints();
     }
 
