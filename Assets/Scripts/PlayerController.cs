@@ -1,12 +1,13 @@
-﻿using GooglePlayGames;
-using System;
+﻿using System;
 using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using UnityEngine.UI;
-using GoogleMobileAds.Api;
+using UnityEngine.SceneManagement;
+
+//using GoogleMobileAds.Api;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,7 +17,9 @@ public class PlayerController : MonoBehaviour
     {
         public float playTime = 0.0f;
     }
-    private AudioPlaytime audioPlaytime;//save play time of the music for replaying a level
+
+    private AudioPlaytime audioPlaytime;
+    //save play time of the music for replaying a level
     private AudioSource musicAudio, effectsAudio;
     public AudioClip inflateSound, deflateSound;
 
@@ -24,13 +27,14 @@ public class PlayerController : MonoBehaviour
     private int bubbleType = 0;
     private float accelInitialX = 0, accelInitialY = 0;
     private float surviveTime = 0.0f;
-    private string surviveTimestring;//string used for formatting the time
+    private string surviveTimestring;
+    //string used for formatting the time
     public Text gameTimer, startTimer;
     private HighscoreManager scoreManager;
     public GameObject pauseScreen, gameOverScreen, loadScreen, startScreen;
     private Vector2 direction = Vector3.zero;
     public bool arenaMode = true;
-    private BannerView myAdBanner;
+    //    private BannerView myAdBanner;
 
     /// Gets the current move/tilt direction.
     public Vector2 Direction
@@ -41,14 +45,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool menuMode = false;//is this script currently used in the main menu
+    public bool menuMode = false;
+    //is this script currently used in the main menu
 
-    public bool roundStarted = false;//has the round started
-    private bool roundOver = false;//has the current round ended
-    private Renderer myRend;//reference to the renderer on this object
+    public bool roundStarted = false;
+    //has the round started
+    private bool roundOver = false;
+    //has the current round ended
+    private Renderer myRend;
+    //reference to the renderer on this object
     private bool isWrappingX, isWrappingY;
-    private bool inTrigger = false;//is the player currently in a trigger area
-    private Rigidbody2D myRigidbody;//reference to the rigidbody on the player
+    private bool inTrigger = false;
+    //is the player currently in a trigger area
+    private Rigidbody2D myRigidbody;
+    //reference to the rigidbody on the player
 
     [Serializable]
     public class GameSettings
@@ -58,6 +68,7 @@ public class PlayerController : MonoBehaviour
         public bool vibes = true;
         public int qualityLevel;
     }
+
     private GameSettings gameSettings;
 
     public GameSettings CurrentGameSettings
@@ -74,9 +85,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public PositionBorder border;//used to change the color of the borders
+    public PositionBorder border;
+    //used to change the color of the borders
 
-	#region unity Ads
+    #region unity Ads
 
     private void Awake()
     {
@@ -87,8 +99,8 @@ public class PlayerController : MonoBehaviour
             myRigidbody = GetComponent<Rigidbody2D>();
             effectsAudio = GetComponent<AudioSource>();
 //            myAdBanner = Utilities.RequestBanner("ca-app-pub-5991018030151740/1658475310", AdSize.Banner, AdPosition.Bottom);
-            if (myAdBanner != null)
-                myAdBanner.Hide();
+//            if (myAdBanner != null)
+//                myAdBanner.Hide();
         }
         //removing video ads for now
 //        if (Advertisement.isSupported)
@@ -117,7 +129,7 @@ public class PlayerController : MonoBehaviour
 //        }
     }
 
-	#endregion unity Ads
+    #endregion unity Ads
 
     private void Start()
     {
@@ -155,8 +167,8 @@ public class PlayerController : MonoBehaviour
     {
         SaveAudio();
         SaveSettings();
-        if (myAdBanner != null)
-            myAdBanner.Destroy();
+//        if (myAdBanner != null)
+//            myAdBanner.Destroy();
     }
 
     private void LoadAudio()
@@ -217,14 +229,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-//    private void FixedUpdate()
-//    {
-//        if (!menuMode)
-//        {
-//            MovePlayer();
-//            ScreenWrap();
-//        }
-//    }
+    //    private void FixedUpdate()
+    //    {
+    //        if (!menuMode)
+    //        {
+    //            MovePlayer();
+    //            ScreenWrap();
+    //        }
+    //    }
 
     ///Wrap the player around the screen.
     private void ScreenWrap()
@@ -259,8 +271,8 @@ public class PlayerController : MonoBehaviour
 
     public void PauseGame()
     {
-        if (myAdBanner != null)
-            myAdBanner.Show();
+//        if (myAdBanner != null)
+//            myAdBanner.Show();
         Time.timeScale = 0;
         musicAudio.Pause();
         pauseScreen.SetActive(true);
@@ -268,8 +280,8 @@ public class PlayerController : MonoBehaviour
 
     public void ResumeGame()
     {
-        if (myAdBanner != null)
-            myAdBanner.Hide();
+//        if (myAdBanner != null)
+//            myAdBanner.Hide();
         Time.timeScale = 1;
         musicAudio.UnPause();
         pauseScreen.SetActive(false);
@@ -281,7 +293,7 @@ public class PlayerController : MonoBehaviour
         loadScreen.SetActive(true);
         Time.timeScale = 1;
         audioPlaytime.playTime = musicAudio.time;
-        Application.LoadLevel(Application.loadedLevelName);//oh yes indeed... So much replay...
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);//oh yes indeed... So much replay...
     }
 
     public void ToMenu()
@@ -289,7 +301,7 @@ public class PlayerController : MonoBehaviour
         loadScreen.SetActive(true);
         Time.timeScale = 1;
         audioPlaytime.playTime = 0.0f;
-        Application.LoadLevel("MainMenu");
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -330,7 +342,6 @@ public class PlayerController : MonoBehaviour
     private void SetTimerText()
     {
         surviveTime += Time.fixedDeltaTime;
-        AchievementCheck();
         surviveTimestring = string.Format("{0:00}:{1:00}.{2:0}", (int)Mathf.Floor(surviveTime) / 60, (int)Mathf.Floor(surviveTime) % 60, ((surviveTime - Mathf.Floor(surviveTime)) * 10f));
         gameTimer.text = surviveTimestring;
         if (transform.localScale.x <= 0.1f)
@@ -345,19 +356,11 @@ public class PlayerController : MonoBehaviour
                 Handheld.Vibrate();
 
             gameOverScreen.SetActive(true);
-            if (myAdBanner != null)
-                myAdBanner.Show();
+//            if (myAdBanner != null)
+//                myAdBanner.Show();
             if (scoreManager.RecordValue(surviveTime))
             {
                 gameOverScreen.transform.FindChild("HighScoreText").gameObject.SetActive(true);
-                //can only post to the online leaderboard when logged in
-                if (PlayGamesPlatform.Instance.localUser.authenticated)
-                {
-                    PlayGamesPlatform.Instance.ReportScore((long)reportedScore, "CgkIif2dm5QIEAIQAg", (bool success) =>
-                    {
-                        Debug.Log("Score Logged");
-                    });
-                }
             }
             ShowAds(scoreManager.ShowAds());
         }
@@ -448,54 +451,6 @@ public class PlayerController : MonoBehaviour
 
             yield return new WaitForSeconds(0.02f);
             timer += 0.02f * 4f;
-        }
-    }
-
-    private void AchievementCheck()
-    {
-        //can only get achievements when you are signed in
-        if (PlayGamesPlatform.Instance.localUser.authenticated)
-        {
-            //Baby steps
-            if (surviveTime >= 20f)
-            {
-                PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAQ", 100.0f, (bool success) =>
-                {
-                    Debug.Log("Achievement Unlocked! Baby steps");
-                });
-            }
-            //Century
-            if (surviveTime >= 100f)
-            {
-                PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQAw", 100.0f, (bool success) =>
-                {
-                    Debug.Log("Achievement Unlocked! Century");
-                });
-            }
-            //500 miles
-            if (surviveTime >= 500f)
-            {
-                PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBg", 100.0f, (bool success) =>
-                {
-                    Debug.Log("Achievement Unlocked! 500 miles");
-                });
-            }
-            //500 more
-            if (surviveTime >= 1000f)
-            {
-                PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBA", 100.0f, (bool success) =>
-                {
-                    Debug.Log("Achievement Unlocked! 500 more");
-                });
-            }
-            //Steriods
-            if (transform.localScale.magnitude >= 17f)
-            {
-                PlayGamesPlatform.Instance.ReportProgress("CgkIif2dm5QIEAIQBQ", 100.0f, (bool success) =>
-                {
-                    Debug.Log("Achievement Unlocked! Roids");
-                });
-            }
         }
     }
 }
